@@ -2,6 +2,8 @@ package com.filipwiecha.gym.user.Models;
 
 import java.time.LocalDate;
 
+import com.filipwiecha.gym.auth.Models.RegisterDto;
+
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -20,14 +22,9 @@ public class UserDto {
     @Email(message = "Invalid email address format")
     private String email;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 8, max = 30, message = "The password must be between 8 and 30 characters long")
-    private String password;
-
     @NotBlank(message = "Username is required")
     @Size(min = 8, max = 30, message = "The username must be between 8 and 30 characters long")
     private String username;
-
     
     @NotBlank(message = "First name is required")
     @Size(min = 1, max = 30, message = "The First name must be between 1 and 30 characters long")
@@ -41,6 +38,8 @@ public class UserDto {
     @Past(message = "Birth date must be in the past")
     private LocalDate birthDate;
 
+    private String role;
+
 
     public UserDto(User user){
         this.username = user.getUsername();
@@ -48,6 +47,7 @@ public class UserDto {
         this.lastName = user.getLastName();
         this.birthDate = user.getBirthDate();
         this.email = user.getEmail();
+        this.role = user.getRoles();
     }
 
 }

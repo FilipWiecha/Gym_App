@@ -6,9 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.filipwiecha.gym.auth.Models.RegisterDto;
 import com.filipwiecha.gym.user.UserRepository;
 import com.filipwiecha.gym.user.Models.User;
-import com.filipwiecha.gym.user.Models.UserDto;
 
 @Service 
 public class AuthService {
@@ -24,19 +24,19 @@ public class AuthService {
 
 
     @Transactional
-    public void createUser(UserDto userDto){
-        Optional<User> userToCheck = this.userRepository.findByUsernameAndEmail(userDto.getUsername(), userDto.getEmail());
+    public void createUser(RegisterDto registerDto){
+        Optional<User> userToCheck = this.userRepository.findByUsernameOrEmail(registerDto.getUsername(), registerDto.getEmail());
         
         if(userToCheck.isPresent()){
-            if(userToCheck.get().getUsername().equals(userDto.getUsername())){
+            if(userToCheck.get().getUsername().equals(registerDto.getUsername())){
                 throw new IllegalArgumentException("Username is already in use");
             }
 
             throw new IllegalArgumentException("Email is already in use");
         }
 
-        User userToSave = new User(userDto);
-        userToSave.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
+        User userToSave = new User(registerDto);
+        userToSave.setPassword(this.passwordEncoder.encode(registerDto.getPassword()));
         this.userRepository.save(userToSave);
     }
 

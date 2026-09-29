@@ -9,6 +9,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.filipwiecha.gym.auth.Models.RegisterDto;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -89,9 +91,8 @@ public class User implements UserDetails {
         return this.enabled;
     }
 
-    public User(UserDto dto) {
+    public User(UserDto dto) {   
         this.username = dto.getUsername();
-        this.password = dto.getPassword();
         this.firstName = dto.getFirstName();
         this.lastName = dto.getLastName();
         this.email = dto.getEmail();
@@ -101,5 +102,9 @@ public class User implements UserDetails {
         this.accountLocked = false;
         this.credentialsExpired = false;
         this.enabled = true;
+
+        if(dto instanceof RegisterDto registerDto){
+            this.password = registerDto.getPassword();
+        }
     }
 }
