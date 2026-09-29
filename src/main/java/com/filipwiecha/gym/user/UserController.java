@@ -1,13 +1,15 @@
 package com.filipwiecha.gym.user;
 
-import java.util.UUID;
-
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
+
+import com.filipwiecha.gym.user.Models.User;
+import com.filipwiecha.gym.user.Service.UserService;
 
 @RestController
 @RequestMapping("/user") 
@@ -19,13 +21,13 @@ public class UserController {
         this.userService = us;
     }
 
-    @GetMapping("")
+    @GetMapping("/me")
     public User me(
-        @RequestParam("id") UUID userId 
+       @AuthenticationPrincipal Jwt jwt
     ){
         
         try {
-            return userService.getUser(userId);
+            return userService.getUserByUsername(jwt.getSubject());
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
         }

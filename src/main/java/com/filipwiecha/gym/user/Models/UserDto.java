@@ -1,4 +1,4 @@
-package com.filipwiecha.gym.user;
+package com.filipwiecha.gym.user.Models;
 
 import java.time.LocalDate;
 

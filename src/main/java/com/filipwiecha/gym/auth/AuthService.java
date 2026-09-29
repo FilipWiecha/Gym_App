@@ -2,21 +2,24 @@ package com.filipwiecha.gym.auth;
 
 import java.util.Optional;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.filipwiecha.gym.user.User;
-import com.filipwiecha.gym.user.UserDto;
 import com.filipwiecha.gym.user.UserRepository;
+import com.filipwiecha.gym.user.Models.User;
+import com.filipwiecha.gym.user.Models.UserDto;
 
 @Service 
 public class AuthService {
     
     
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository ur){
+    public AuthService(UserRepository ur, PasswordEncoder pe){
         this.userRepository = ur;
+        this.passwordEncoder = pe;
     }
 
 
@@ -33,6 +36,7 @@ public class AuthService {
         }
 
         User userToSave = new User(userDto);
+        userToSave.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
         this.userRepository.save(userToSave);
     }
 
