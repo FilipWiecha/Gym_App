@@ -2,7 +2,6 @@ package com.filipwiecha.gym.user.Models;
 
 import java.time.LocalDate;
 
-import com.filipwiecha.gym.auth.Models.RegisterDto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
