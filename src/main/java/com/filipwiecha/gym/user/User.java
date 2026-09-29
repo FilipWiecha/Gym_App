@@ -89,14 +89,14 @@ public class User implements UserDetails {
         return this.enabled;
     }
 
-    public User(UserDto dto, String role) {
+    public User(UserDto dto) {
         this.username = dto.getUsername();
         this.password = dto.getPassword();
         this.firstName = dto.getFirstName();
         this.lastName = dto.getLastName();
         this.email = dto.getEmail();
         this.birthDate = dto.getBirthDate();
-        this.roles = role;
+        this.roles = "ROLE_USER";
         this.accountExpired = false;
         this.accountLocked = false;
         this.credentialsExpired = false;
