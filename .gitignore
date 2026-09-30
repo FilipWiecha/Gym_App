@@ -34,3 +34,7 @@ build/
 
 ### KEYS ###
 /certs/
+
+
+### FRONTEND ###
+/node_modules
