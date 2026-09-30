@@ -34,7 +34,8 @@ build/
 
 ### KEYS ###
 /certs/
-
+*.pem
+.env
 
 ### FRONTEND ###
 /node_modules
