@@ -1,6 +1,8 @@
 package com.filipwiecha.gym.auth;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,8 +21,6 @@ import com.filipwiecha.gym.auth.Models.TokenDto;
 import com.filipwiecha.gym.user.Models.User;
 import com.filipwiecha.gym.user.Service.JpaUserDetailsService;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletResponse;
 
 
 @RestController
@@ -49,25 +49,28 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenDto> loginUser(
-        @RequestBody LoginDto request,
-        HttpServletResponse response
+        @RequestBody LoginDto request
     ) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         
         String accessToken = tokenService.generateAccessToken(authentication);
-        String refreshToken = tokenService.generateAccessToken(authentication);
+        String refreshToken = tokenService.generateRefreshToken(authentication);
 
-        Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
-        refreshTokenCookie.setHttpOnly(true);
-        refreshTokenCookie.setSecure(true);
-        refreshTokenCookie.setMaxAge(60*60*24);
-        refreshTokenCookie.setPath("/auth/refresh");
-        response.addCookie(refreshTokenCookie);
+        ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", refreshToken)
+            .httpOnly(true)
+            .secure(false) // false dla HTTP (localhost)
+            .path("/")
+            .maxAge(60 * 60 * 24)
+            .sameSite("Lax") // Zezwala na przesyłanie ciasteczka przy nawigacji
+            .build();
 
 
-        return ResponseEntity.status(HttpStatus.OK).body(new TokenDto(accessToken));
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
+                .body(new TokenDto(accessToken));
     }
     
     @PostMapping("/register")

@@ -39,3 +39,4 @@ build/
 
 ### FRONTEND ###
 /node_modules
+node_modules/
