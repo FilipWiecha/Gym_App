@@ -1,7 +1,11 @@
+import axios from "axios";
+
 import { apiClient, setAccessToken } from "../apiClient";
 import type LoginDto from "./dto/LoginDto";
 import type RegisterDto from "./dto/RegisterDto";
 import type TokenDto from "./dto/TokenDto";
+
+const BASE_URL = import.meta.env.VITE_URL_BASE_BACKEND;
 
 
 export const postRegisterUser = async (
@@ -10,20 +14,47 @@ export const postRegisterUser = async (
 
     const REGISTER_ENDPOINT = import.meta.env.VITE_URL_REGISTER;
 
-    const response = await apiClient.post<string>(REGISTER_ENDPOINT, registerData);
-    return response;
+    const response = await axios.post<string>(
+        `${BASE_URL}${REGISTER_ENDPOINT}`,
+        registerData
+    )
+
+    return response.data;
 };
 
 
 export const postLoginUser = async (
     loginData: LoginDto
-) =>{
+):Promise<TokenDto> =>{
 
     const LOGIN_ENDPOINT = import.meta.env.VITE_URL_LOGIN;
 
-    const respone = await apiClient.post<TokenDto>(LOGIN_ENDPOINT, loginData);
-    setAccessToken(respone.data?.accessToken || null);
+    const response = await axios.post<TokenDto>(
+        `${BASE_URL}${LOGIN_ENDPOINT}`, 
+        loginData,
+        { withCredentials: true }
+    );
+    
+    setAccessToken(response.data?.accessToken || null);
 
-    return respone;
+    return response.data;
+};
+
+
+export const postLogOutUser = async () => {
+    const LOGOUT_ENDPOINT = import.meta.env.VITE_URL_LOGOUT;
+    await apiClient.post<String>(LOGOUT_ENDPOINT);
+    setAccessToken(null);
+};
+
+export const postRefreshToken = async ():Promise<TokenDto> => {
+    const REFRESH_ENDPOINT = import.meta.env.VITE_URL_REFRESH_ACCESS_TOKEN;
+    const response = await axios.post<TokenDto>(
+        `${BASE_URL}${REFRESH_ENDPOINT}`, 
+        {}, 
+        { withCredentials: true }
+    );
+    
+    return response.data || null;
 };
 

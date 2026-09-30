@@ -5,5 +5,4 @@ export default interface RegisterDto{
     firstName: string;
     lastName: string;
     birthDate: string;
-    roles: string;
 }
