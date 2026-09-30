@@ -20,7 +20,7 @@ public class TokenService {
         this.encoder = encoder;
     }
 
-    public String generateToken(Authentication authentication) {
+    public String generateAccessToken(Authentication authentication) {
         Instant now = Instant.now();
         String roles = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -33,6 +33,19 @@ public class TokenService {
                 .subject(authentication.getName())
                 .claim("roles", roles)
                 .build();
+
+        return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
+    }
+
+    public String generateRefreshToken(Authentication authentication){
+        Instant now = Instant.now();
+
+        JwtClaimsSet claims = JwtClaimsSet.builder()
+        .issuer("self")
+        .issuedAt(now)
+        .expiresAt(now.plus(1, ChronoUnit.DAYS))
+        .subject(authentication.getName())
+        .build();
 
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
