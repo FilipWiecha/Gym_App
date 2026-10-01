@@ -9,8 +9,12 @@ import { Layout } from './components/Layout';
 
 import { Login } from './pages/auth/Login';
 import { Register } from './pages/auth/Register';
+
 import { Dashboard } from './pages/main/Dashboard';
 import { InfoPage } from './pages/main/Info';
+
+import { UserProfile } from './pages/user/profile/UserProfile';
+import { UserSettingsPage } from './pages/user/settings/UserSettingsPage';
 
 
 
@@ -42,7 +46,17 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         path: '/',
-                        element: <Dashboard />   
+                        element: <Dashboard />
+                    },
+
+                    {
+                        path: '/profile',
+                        element: <UserProfile />
+                    },
+
+                    {
+                        path: '/settings',
+                        element: <UserSettingsPage />
                     }
                 ],
             },

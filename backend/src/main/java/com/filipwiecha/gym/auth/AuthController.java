@@ -55,6 +55,7 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         
+        String role = this.jpaUserDetailsService.loadUserByUsername(request.getUsername()).getRoles();
         String accessToken = tokenService.generateAccessToken(authentication);
         String refreshToken = tokenService.generateRefreshToken(authentication);
 
@@ -70,7 +71,7 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
-                .body(new TokenDto(accessToken));
+                .body(new TokenDto(accessToken,role));
     }
 
     @PostMapping("/logout")
@@ -108,7 +109,7 @@ public class AuthController {
             Authentication auth = new UsernamePasswordAuthenticationToken(user, null);
             String newAccessToken = this.tokenService.generateAccessToken(auth);
 
-            return ResponseEntity.ok().body(new TokenDto(newAccessToken));
+            return ResponseEntity.ok().body(new TokenDto(newAccessToken, user.getRoles()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

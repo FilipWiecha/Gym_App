@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext';
 
 export function Layout() {
     const navigate = useNavigate();
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, logout, role } = useAuth();
 
     const handleLogout = async () => {
         await postLogOutUser();
@@ -22,25 +22,30 @@ export function Layout() {
                 borderBottom: '1px solid #dee2e6'
             }}>
                 <NavLink to="/" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                    Strona Główna
+                    Main Page
                 </NavLink>
 
                 {isAuthenticated ? (
                     <>
                         <NavLink to="/profile" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                            Profil
+                            Profile {role == "ROLE_USER" ? "": " - ADMIN"}
                         </NavLink>
+
+                        <NavLink to="/settings" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
+                            Settings
+                        </NavLink>
+
                         <button onClick={handleLogout} style={{ marginLeft: 'auto', cursor: 'pointer' }}>
-                            Wyloguj
+                            Logout
                         </button>
                     </>
                 ) : (
                     <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
                         <NavLink to="/login" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                            Logowanie
+                            Sign in
                         </NavLink>
                         <NavLink to="/register" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                            Rejestracja
+                            Register
                         </NavLink>
                     </div>
                 )}

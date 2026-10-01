@@ -4,9 +4,12 @@ import { setAccessToken } from '../api/apiClient';
 import { postRefreshToken, postLogOutUser } from '../api/auth/AuthService';
 import { getHasSession, setHasSession } from '../stores/AuthStore';
 
+import { clearAllStores } from '../stores/StoreManagment';
+
 interface AuthContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
+    role:string;
     login: (token: string) => void;
     logout: () => void;
 }
@@ -15,6 +18,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [role, setRole] = useState<string>("ROLE_USER");
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
@@ -28,6 +32,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 const data = await postRefreshToken();
                 login(data.accessToken);
                 setHasSession(true);
+
+                setRole(data.role);
             } catch {
                 setAccessToken(null);
                 setIsAuthenticated(false);
@@ -48,12 +54,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const logout = async () => {
         postLogOutUser();
+        
         setIsAuthenticated(false);
         setHasSession(false);
+
+        clearAllStores();
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, role, login, logout }}>
             {/* Renderuj aplikację dopiero po weryfikacji tokena */}
             {!isLoading && children}
         </AuthContext.Provider>

@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +24,8 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "users")
+@DynamicUpdate
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

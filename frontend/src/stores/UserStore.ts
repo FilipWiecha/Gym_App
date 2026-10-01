@@ -1,9 +1,19 @@
-export const getUserDetails = () => {
-    const hasSession = localStorage.getItem('hasSession');
+import type UserDto from "../api/user/Dto/UserDto"
 
-    return hasSession === 'true' ? true : false;
-};
+export const getUserInfoStore = (): UserDto | null =>{
+    const data = sessionStorage.getItem("userInfoData");
 
-export const setUserDetails = (hasSession:boolean) => {
-    localStorage.setItem('hasSession', hasSession? 'true': 'false');
+    if(!data){
+        return null;
+    }
+
+    return JSON.parse(data);
+}
+
+export const setUserInfoStore = (userData: UserDto) =>{
+    sessionStorage.setItem("userInfoData", JSON.stringify(userData));
+}
+
+export const clearUserInfoStore = () => {
+    sessionStorage.removeItem("userInfoData");
 };

@@ -7,3 +7,7 @@ export const getHasSession = () => {
 export const setHasSession = (hasSession:boolean) => {
     sessionStorage.setItem('hasSession', hasSession? 'true': 'false');
 };
+
+export const clearHasSession = () => {
+    sessionStorage.removeItem('hasSession');
+};
