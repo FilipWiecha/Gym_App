@@ -1,7 +1,11 @@
 import { useState } from 'react';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { postLogOutUser } from '../api/auth/AuthService';
-import { useAuth } from '../context/AuthContext';
+
+import { Outlet, useNavigate, Link } from 'react-router-dom';
+
+import { postLogOutUser } from '../../features/auth/services/AuthService';
+
+import { useAuth } from '../../context/AuthContext';
+
 import { 
     LayoutDashboard, 
     User, 
@@ -10,11 +14,12 @@ import {
     Menu,
     X
 } from 'lucide-react';
+
 import styles from './Layout.module.css';
 
 export function Layout() {
     const navigate = useNavigate();
-    const { isAuthenticated, logout, role } = useAuth();
+    const { isAuthenticated, logout } = useAuth();
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleLogout = async () => {
@@ -32,7 +37,7 @@ export function Layout() {
 
     return (
         <div className={styles.appLayout}>
-            {/* Mobilny nagłówek z przyciskiem menu */}
+            
             <div className={styles.mobileHeader}>
                 <div className={styles.logo}>
                     <span className={styles.logoIcon}>G</span>
@@ -43,7 +48,7 @@ export function Layout() {
                 </button>
             </div>
 
-            {/* Backdrop dla wersji mobilnej */}
+            
             {isMobileMenuOpen && <div className={styles.backdrop} onClick={closeMenu} />}
 
             <aside className={`${styles.sidebar} ${isMobileMenuOpen ? styles.sidebarOpen : ''}`}>
@@ -54,15 +59,15 @@ export function Layout() {
                     </div>
                     
                     <nav className={styles.navLinks}>
-                        <a href="/" className={styles.navItem} onClick={closeMenu}>
+                        <Link to="/" className={styles.navItem} onClick={closeMenu}>
                             <LayoutDashboard size={18} /> Main Page
-                        </a>
-                        <a href="/profile" className={styles.navItem} onClick={closeMenu}>
-                            <User size={18} /> Profile {role === "ROLE_USER" ? "" : " - ADMIN"}
-                        </a>
-                        <a href="/settings" className={styles.navItem} onClick={closeMenu}>
+                        </Link>
+                        <Link to="/profile" className={styles.navItem} onClick={closeMenu}>
+                            <User size={18} /> Profile
+                        </Link>
+                        <Link to="/settings" className={styles.navItem} onClick={closeMenu}>
                             <Settings size={18} /> Settings
-                        </a>
+                        </Link>
                     </nav>
                 </div>
 

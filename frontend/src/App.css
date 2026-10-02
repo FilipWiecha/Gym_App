@@ -405,3 +405,18 @@ body {
     font-size: 12px;
     font-weight: 500;
 }
+
+.divInput {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding: 0rem 0rem 0rem 0rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.divInput:focus,
+.divInput:focus-within {
+  border-color: var(--color-primary);
+}

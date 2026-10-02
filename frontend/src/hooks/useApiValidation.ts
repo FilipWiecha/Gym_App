@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { AxiosError } from 'axios';
-import type { ApiErrorResponse } from '../api/ApiErrorResponse';
+import type { ApiErrorResponse } from '../types/ApiErrorResponse';
+
 
 
 export const useApiValidation = () => {

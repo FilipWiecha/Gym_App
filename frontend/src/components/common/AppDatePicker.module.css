@@ -1,0 +1,144 @@
+.container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.inputField {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  background: transparent !important;
+  box-sizing: border-box;
+  text-align: left;
+  cursor: pointer;
+}
+
+.inputField::placeholder {
+  color: var(--color-text-light-muted, #9ca3af);
+}
+
+.inputField:focus,
+.inputField:active {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.popover {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 100;
+  width: 290px;
+  background: #ffffff;
+  border-radius: 8px;
+  border: 1px solid var(--color-border, #e5e7eb);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  padding: 14px;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.headerSelects {
+  display: flex;
+  gap: 6px;
+}
+
+.select {
+  padding: 4px 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-text-main, #1a1a1a);
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-radius: 4px;
+  background: #f3f4f6;
+  cursor: pointer;
+}
+
+.navBtn {
+  background: none;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-light-muted, #9ca3af);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.navBtn:hover {
+  background-color: #f3f4f6;
+  color: var(--color-text-main, #1a1a1a);
+}
+
+.weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-text-light-muted, #9ca3af);
+  margin-bottom: 6px;
+}
+
+.daysGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.dayBtn {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  font-size: 12px;
+  border-radius: 6px;
+  color: var(--color-text-main, #1a1a1a);
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+
+.dayBtn:hover:not(:disabled) {
+  background-color: #f3f4f6;
+}
+
+.dayBtn:disabled {
+  color: #d1d5db;
+  cursor: not-allowed;
+}
+
+.selected {
+  background-color: var(--color-primary, #5c6bc0) !important;
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+.emptyCell {
+  aspect-ratio: 1;
+}

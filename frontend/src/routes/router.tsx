@@ -1,19 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
 
-import { GuestRoute } from './components/GuestRoute';
-import { ProtectedRoute } from './components/ProtectedRoute';
+import { Layout } from '../components/layout/Layout';
+
+import { GuestRoute } from './GuestRoute';
+import { ProtectedRoute } from './ProtectedRoute';
+
+import { LoginPage } from '../pages/auth/Login';
+import { RegisterPage } from '../pages/auth/Register';
+import { DashboardPage } from '../pages/main/Dashboard';
+import { UserProfilePage } from '../pages/user/profile/UserProfile';
+import { UserSettingsPage } from '../pages/user/settings/UserSettings';
 
 
-
-import { Layout } from './components/Layout';
-
-import { LoginPage } from './pages/auth/Login';
-import { RegisterPage } from './pages/auth/Register';
-
-import { DashboardPage } from './pages/main/Dashboard';
-
-import { UserProfilePage } from './pages/user/profile/UserProfile';
-import { UserSettingsPage } from './pages/user/settings/UserSettings';
 
 
 

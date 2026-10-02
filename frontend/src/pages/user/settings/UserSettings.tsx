@@ -1,8 +1,14 @@
 import { useState } from 'react';
+
 import styles from './UserSettings.module.css';
-import type { UserUpdateDto } from '../../../api/user/Dto/UserUpdateDto';
-import { getUserInfo, patchUpdateUser } from '../../../api/user/UserService';
+
+import { useAuth } from '../../../context/AuthContext';
+
+import type { UserUpdateDto } from '../../../features/user/types/UserUpdateDto';
+import { getUserInfo, patchUpdateUser } from '../../../features/user/services/UserService';
+
 import { useApiValidation } from '../../../hooks/useApiValidation';
+
 import { 
     Shield, 
     Check, 
@@ -10,7 +16,10 @@ import {
     CheckCircle2 
 } from 'lucide-react';
 
+
 export function UserSettingsPage() {
+    const {setUser} = useAuth();
+
     const [formData, setFormData] = useState<UserUpdateDto>({
         firstName: '',
         lastName: '',
@@ -43,7 +52,8 @@ export function UserSettingsPage() {
 
         try {
             await patchUpdateUser(payload);
-            await getUserInfo(false);
+            const userData = await getUserInfo();
+            setUser(userData);
 
             setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '' }));
             setStatus({ type: 'success', message: 'All changes saved' });

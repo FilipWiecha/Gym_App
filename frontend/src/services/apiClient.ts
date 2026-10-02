@@ -1,5 +1,5 @@
 import axios, { type AxiosResponse } from "axios";
-import type TokenDto from "./auth/dto/TokenDto";
+import type TokenDto from "../features/auth/types/TokenDto";
 
 
 let accessToken: string | null = null;

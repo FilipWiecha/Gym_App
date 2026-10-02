@@ -1,15 +1,16 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 
-import { setAccessToken } from '../api/apiClient';
-import { postRefreshToken, postLogOutUser } from '../api/auth/AuthService';
-import { getHasSession, setHasSession } from '../stores/AuthStore';
-
-import { clearAllStores } from '../stores/StoreManagment';
+import { setAccessToken } from '../services/apiClient';
+import { clearHasSession, getHasSession, setHasSession } from '../features/auth/utils/AuthStore';
+import { postLogOutUser, postRefreshToken } from '../features/auth/services/AuthService';
+import type UserDto from '../features/user/types/UserDto';
+import { getUserInfo } from '../features/user/services/UserService';
 
 interface AuthContextType {
     isAuthenticated: boolean;
     isLoading: boolean;
-    role:string;
+    user:UserDto | null;
+    setUser: (user:UserDto | null)=> void;
     login: (token: string) => void;
     logout: () => void;
 }
@@ -18,8 +19,30 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [role, setRole] = useState<string>("ROLE_USER");
+    const [user, setUser] = useState<UserDto | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+
+    const login = (token: string, userData?: UserDto) => {
+        setAccessToken(token);
+        setIsAuthenticated(true);
+        setHasSession(true);
+        if (userData) {
+            setUser(userData);
+        }
+    };
+
+    const logout = async () => {
+        try {
+            await postLogOutUser();
+        } catch (error) {
+            console.error('Logout error:', error);
+        } finally {
+            setAccessToken(null);
+            setUser(null);
+            setIsAuthenticated(false);
+            clearHasSession();
+        }
+    };
 
     useEffect(() => {
         const verifySession = async () => {
@@ -29,15 +52,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     throw new Error("no session");
                 }
 
-                const data = await postRefreshToken();
-                login(data.accessToken);
+                const tokenData = await postRefreshToken();
+                setAccessToken(tokenData.accessToken);
+                setIsAuthenticated(true);
                 setHasSession(true);
 
-                setRole(data.role);
+                const userData = await getUserInfo();
+                setUser(userData);
+
             } catch {
                 setAccessToken(null);
+                setUser(null);
                 setIsAuthenticated(false);
-                setHasSession(false);
+                clearHasSession();
             } finally {
                 setIsLoading(false);
             }
@@ -46,24 +73,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         verifySession();
     }, []);
 
-    const login = (token: string) => {
-        setAccessToken(token);
-        setIsAuthenticated(true);
-        setHasSession(true);
-    };
-
-    const logout = async () => {
-        postLogOutUser();
-        
-        setIsAuthenticated(false);
-        setHasSession(false);
-
-        clearAllStores();
-    };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, role, login, logout }}>
-            {/* Renderuj aplikację dopiero po weryfikacji tokena */}
+        <AuthContext.Provider value={{ isAuthenticated, isLoading, user, setUser, login, logout }}>
             {!isLoading && children}
         </AuthContext.Provider>
     );

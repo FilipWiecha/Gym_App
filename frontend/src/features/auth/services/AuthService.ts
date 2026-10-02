@@ -1,9 +1,11 @@
 import axios from "axios";
+import type RegisterDto from "../types/RegisterDto";
+import type LoginDto from "../types/LoginDto";
+import type TokenDto from "../types/TokenDto";
+import { apiClient, setAccessToken } from "../../../services/apiClient";
 
-import { apiClient, setAccessToken } from "../apiClient";
-import type LoginDto from "./dto/LoginDto";
-import type RegisterDto from "./dto/RegisterDto";
-import type TokenDto from "./dto/TokenDto";
+
+
 
 const BASE_URL = import.meta.env.VITE_URL_BASE_BACKEND;
 
@@ -44,7 +46,6 @@ export const postLoginUser = async (
 export const postLogOutUser = async () => {
     const LOGOUT_ENDPOINT = import.meta.env.VITE_URL_LOGOUT;
     await apiClient.post<String>(LOGOUT_ENDPOINT);
-    setAccessToken(null);
 };
 
 export const postRefreshToken = async ():Promise<TokenDto> => {

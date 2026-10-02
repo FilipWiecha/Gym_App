@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { postLoginUser } from '../../api/auth/AuthService';
 import { useAuth } from '../../context/AuthContext';
 import { Mail, Lock, Eye, CheckCircle2 } from 'lucide-react';
+import { postLoginUser } from '../../features/auth/services/AuthService';
 
 
 export function LoginPage() {
@@ -32,7 +32,7 @@ export function LoginPage() {
             {/* Prawy panel logowania */}
             <main className="login-main">
                 <nav className="main-nav">
-                    <a href="/help">Centrum pomocy</a>
+                    <a href="/help">Help Center</a>
                 </nav>
 
                 <div className="form-wrapper">

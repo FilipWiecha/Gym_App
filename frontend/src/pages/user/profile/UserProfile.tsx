@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { getUserInfo } from "../../../api/user/UserService";
-import type UserDto from "../../../api/user/Dto/UserDto";
+import { getUserInfo } from "../../../features/user/services/UserService";
+import type UserDto from "../../../features/user/types/UserDto";
 import styles from "./UserProfile.module.css";
 import { 
     Mail,  
