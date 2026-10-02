@@ -1,10 +1,21 @@
-import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { postLogOutUser } from '../api/auth/AuthService';
 import { useAuth } from '../context/AuthContext';
+import { 
+    LayoutDashboard, 
+    User, 
+    Settings,
+    LogOut,
+    Menu,
+    X
+} from 'lucide-react';
+import styles from './Layout.module.css';
 
 export function Layout() {
     const navigate = useNavigate();
     const { isAuthenticated, logout, role } = useAuth();
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     const handleLogout = async () => {
         await postLogOutUser();
@@ -12,46 +23,57 @@ export function Layout() {
         navigate('/login');
     };
 
+    if (!isAuthenticated) {
+        return <Outlet />;
+    }
+
+    const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+    const closeMenu = () => setIsMobileMenuOpen(false);
+
     return (
-        <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
-            <nav style={{ 
-                display: 'flex', 
-                gap: '20px', 
-                padding: '15px 20px', 
-                backgroundColor: '#f8f9fa',
-                borderBottom: '1px solid #dee2e6'
-            }}>
-                <NavLink to="/" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                    Main Page
-                </NavLink>
+        <div className={styles.appLayout}>
+            {/* Mobilny nagłówek z przyciskiem menu */}
+            <div className={styles.mobileHeader}>
+                <div className={styles.logo}>
+                    <span className={styles.logoIcon}>G</span>
+                    Gym App
+                </div>
+                <button onClick={toggleMenu} className={styles.menuToggleBtn} aria-label="Menu">
+                    {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                </button>
+            </div>
 
-                {isAuthenticated ? (
-                    <>
-                        <NavLink to="/profile" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                            Profile {role == "ROLE_USER" ? "": " - ADMIN"}
-                        </NavLink>
+            {/* Backdrop dla wersji mobilnej */}
+            {isMobileMenuOpen && <div className={styles.backdrop} onClick={closeMenu} />}
 
-                        <NavLink to="/settings" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                            Settings
-                        </NavLink>
-
-                        <button onClick={handleLogout} style={{ marginLeft: 'auto', cursor: 'pointer' }}>
-                            Logout
-                        </button>
-                    </>
-                ) : (
-                    <div style={{ marginLeft: 'auto', display: 'flex', gap: '10px' }}>
-                        <NavLink to="/login" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                            Sign in
-                        </NavLink>
-                        <NavLink to="/register" style={({ isActive }) => ({ fontWeight: isActive ? 'bold' : 'normal' })}>
-                            Register
-                        </NavLink>
+            <aside className={`${styles.sidebar} ${isMobileMenuOpen ? styles.sidebarOpen : ''}`}>
+                <div className={styles.sidebarTop}>
+                    <div className={styles.logoDesktop}>
+                        <span className={styles.logoIcon}>G</span>
+                        Gym App
                     </div>
-                )}
-            </nav>
-            
-            <main style={{ padding: '20px', flex: 1 }}>
+                    
+                    <nav className={styles.navLinks}>
+                        <a href="/" className={styles.navItem} onClick={closeMenu}>
+                            <LayoutDashboard size={18} /> Main Page
+                        </a>
+                        <a href="/profile" className={styles.navItem} onClick={closeMenu}>
+                            <User size={18} /> Profile {role === "ROLE_USER" ? "" : " - ADMIN"}
+                        </a>
+                        <a href="/settings" className={styles.navItem} onClick={closeMenu}>
+                            <Settings size={18} /> Settings
+                        </a>
+                    </nav>
+                </div>
+
+                <div className={styles.sidebarBottom}>
+                    <button onClick={() => { closeMenu(); handleLogout(); }} className={styles.logoutBtn}>
+                        <LogOut size={16} /> Logout
+                    </button>
+                </div>
+            </aside>
+
+            <main className={styles.mainContent}>
                 <Outlet />
             </main>
         </div>

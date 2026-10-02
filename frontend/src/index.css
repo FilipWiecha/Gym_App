@@ -1,111 +1,407 @@
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+    --color-bg-dark: #1e2128;
+    --color-bg-light: #ffffff;
+    --color-primary: #5c6bc0;
+    --color-primary-hover: #4f5cb3;
+    --color-text-dark: #ffffff;
+    --color-text-main: #1a1a1a;
+    --color-text-muted: #8892b0;
+    --color-text-light-muted: #6b7280;
+    --color-border: #e5e7eb;
+    --color-success: #10b981;
+    --color-error: #ef4444;
+    
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
-  margin: 0;
+    margin: 0;
+    font-family: var(--font-family);
+    -webkit-font-smoothing: antialiased;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+/* Układ */
+.login-layout {
+    display: flex;
+    min-height: 100vh;
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
+/* Lewy panel */
+.login-sidebar {
+    background-color: var(--color-bg-dark);
+    color: var(--color-text-dark);
+    flex: 0 0 480px;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.logo-icon {
+    background: white;
+    color: var(--color-bg-dark);
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.eyebrow {
+    color: var(--color-primary);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.sidebar-content h1 {
     font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+    line-height: 1.2;
+    margin: 16px 0;
+    font-weight: 700;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+.sidebar-content p {
+    color: var(--color-text-muted);
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 32px;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+.sidebar-footer {
+    color: var(--color-text-muted);
+    font-size: 12px;
+}
+
+/* Prawy panel */
+.login-main {
+    flex: 1;
+    background-color: var(--color-bg-light);
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    position: relative;
+}
+
+.main-nav {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.main-nav a, .main-footer a {
+    color: var(--color-text-light-muted);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.form-wrapper {
+    max-width: 420px;
+    width: 100%;
+    margin: auto;
+}
+
+.form-header h2 {
+    font-size: 28px;
+    color: var(--color-text-main);
+    margin: 0 0 8px 0;
+}
+
+.form-header p {
+    color: var(--color-text-light-muted);
+    font-size: 14px;
+    margin: 0 0 32px 0;
+}
+
+.google-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: white;
+    border: 1px solid var(--color-border);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.google-btn:hover {
+    background: #f9fafb;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 24px 0;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.divider span {
+    padding: 0 16px;
+    color: var(--color-text-light-muted);
+    font-size: 12px;
+    text-transform: uppercase;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    color: var(--color-text-main);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 12px 40px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-with-icon input:focus {
+    border-color: var(--color-primary);
+}
+
+.input-with-icon .icon-left {
+    position: absolute;
+    left: 12px;
+    color: var(--color-text-light-muted);
+}
+
+.input-with-icon .icon-right {
+    position: absolute;
+    right: 12px;
+}
+
+.icon-right.success { color: var(--color-success); }
+.icon-right.action { color: var(--color-text-light-muted); cursor: pointer; }
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--color-text-light-muted);
+    cursor: pointer;
+}
+
+.checkbox-label input {
+    accent-color: var(--color-primary);
+    width: 16px;
+    height: 16px;
+}
+
+.text-link {
+    color: var(--color-primary);
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.submit-btn {
+    width: 100%;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 6px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.submit-btn:hover {
+    background-color: var(--color-primary-hover);
+}
+
+.register-prompt {
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-text-light-muted);
+    margin-top: 24px;
+}
+
+.register-prompt a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.main-footer {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: auto;
+}
+
+.error-message {
+    background-color: #fef2f2;
+    color: var(--color-error);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Responsywność */
+@media (max-width: 900px) {
+    .login-sidebar {
+        display: none;
+    }
+    .form-wrapper {
+        margin: auto;
+    }
+}
+
+
+/* Układ wielu kolumn w formularzu */
+.form-row {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.form-row .input-group {
+    flex: 1;
+    margin-bottom: 0;
+}
+
+/* Wskazówki pod polami (np. adres email) */
+.input-hint {
+    display: block;
+    font-size: 12px;
+    color: var(--color-text-light-muted);
+    margin-top: 6px;
+}
+
+/* Pola podstawowe bez ikon (wymagają paddingu jak zwykłe inputy) */
+.input-group > input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+}
+
+.input-group > input:focus {
+    border-color: var(--color-primary);
+}
+
+/* Specyficzne style pola z ikonami po prawej stronie */
+.icons-right {
+    position: absolute;
+    right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-action { color: var(--color-text-light-muted); cursor: pointer; }
+.icon-success { color: var(--color-success); }
+
+/* Weryfikacja hasła i obramowanie */
+.input-with-icon.valid input {
+    border-color: var(--color-success);
+}
+
+.password-group {
+    margin-bottom: 24px;
+}
+
+.password-strength {
+    margin-top: 8px;
+}
+
+.strength-req {
+    display: block;
+    font-size: 12px;
+    color: var(--color-success);
+    margin-bottom: 8px;
+}
+
+/* Gdy hasło nie spełnia wymagań, tekst wymagań jest szary - można modyfikować wg potrzeb */
+.strength-req:not(.met) {
+    color: var(--color-success); /* Na zrzucie ekranu tekst jest zielony nawet przy pustym polu, zachowano ten stan */
+}
+
+.strength-bars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.strength-bars .bar {
+    height: 4px;
+    flex: 1;
+    background-color: var(--color-border);
+    border-radius: 2px;
+    transition: background-color 0.3s;
+}
+
+.strength-bars .bar.active {
+    background-color: var(--color-success);
+}
+
+.strength-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--color-success);
+    font-size: 12px;
+    font-weight: 500;
 }

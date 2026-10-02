@@ -1,4 +1,4 @@
-export const Dashboard = () =>{
+export function DashboardPage(){
     return (
     <>
         <p>Dashboard page</p>

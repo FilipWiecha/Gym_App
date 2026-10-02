@@ -7,14 +7,13 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 
 import { Layout } from './components/Layout';
 
-import { Login } from './pages/auth/Login';
-import { Register } from './pages/auth/Register';
+import { LoginPage } from './pages/auth/Login';
+import { RegisterPage } from './pages/auth/Register';
 
-import { Dashboard } from './pages/main/Dashboard';
-import { InfoPage } from './pages/main/Info';
+import { DashboardPage } from './pages/main/Dashboard';
 
-import { UserProfile } from './pages/user/profile/UserProfile';
-import { UserSettingsPage } from './pages/user/settings/UserSettingsPage';
+import { UserProfilePage } from './pages/user/profile/UserProfile';
+import { UserSettingsPage } from './pages/user/settings/UserSettings';
 
 
 
@@ -28,16 +27,13 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         path: '/login',
-                        element: <Login />,
+                        element: <LoginPage />,
                     },
                     {
                         path: '/register',
-                        element: <Register />,
-                    },
-                    {
-                        path: '/',
-                        element: <InfoPage />,
-                    },
+                        element: <RegisterPage />,
+                    }
+
                 ]
             },
             // Authenticated
@@ -46,12 +42,12 @@ export const router = createBrowserRouter([
                 children: [
                     {
                         path: '/',
-                        element: <Dashboard />
+                        element: <DashboardPage />
                     },
 
                     {
                         path: '/profile',
-                        element: <UserProfile />
+                        element: <UserProfilePage />
                     },
 
                     {
