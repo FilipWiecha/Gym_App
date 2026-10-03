@@ -1,11 +1,11 @@
-package com.filipwiecha.gym.user.Service;
+package com.filipwiecha.gym.user.services;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.filipwiecha.gym.user.UserRepository;
-import com.filipwiecha.gym.user.Models.User;
+import com.filipwiecha.gym.user.models.User;
+import com.filipwiecha.gym.user.repositories.UserRepository;
 
 @Service 
 public class JpaUserDetailsService implements UserDetailsService {

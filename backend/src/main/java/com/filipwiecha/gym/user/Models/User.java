@@ -1,4 +1,4 @@
-package com.filipwiecha.gym.user.Models;
+package com.filipwiecha.gym.user.models;
 
 import java.time.LocalDate;
 import java.util.Collection;
@@ -10,13 +10,17 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.filipwiecha.gym.auth.Models.RegisterDto;
+import com.filipwiecha.gym.auth.models.RegisterDto;
+import com.filipwiecha.gym.exercises.models.Exercise;
+import com.filipwiecha.gym.trainingPlan.models.TrainingPlan;
+import com.filipwiecha.gym.workout.models.Workout;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -55,6 +59,17 @@ public class User implements UserDetails {
 
     @Column(nullable = false)
     private String roles;
+
+    // Relacje
+    @OneToMany(mappedBy = "user")
+    private List<Workout> workouts;
+
+    @OneToMany(mappedBy = "user")
+    private List<Exercise> exercises;
+
+    @OneToMany(mappedBy = "user")
+    private List<TrainingPlan> trainingPlans; 
+
 
     // Flagi UserDetails z typami prymitywnymi i wartościami początkowymi
     @Column(nullable = false)

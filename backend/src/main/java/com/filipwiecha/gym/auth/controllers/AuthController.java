@@ -1,4 +1,4 @@
-package com.filipwiecha.gym.auth;
+package com.filipwiecha.gym.auth.controllers;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -15,11 +15,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.filipwiecha.gym.auth.Models.LoginDto;
-import com.filipwiecha.gym.auth.Models.RegisterDto;
-import com.filipwiecha.gym.auth.Models.TokenDto;
-import com.filipwiecha.gym.user.Models.User;
-import com.filipwiecha.gym.user.Service.JpaUserDetailsService;
+import com.filipwiecha.gym.auth.models.LoginDto;
+import com.filipwiecha.gym.auth.models.RegisterDto;
+import com.filipwiecha.gym.auth.models.TokenDto;
+import com.filipwiecha.gym.auth.services.AuthService;
+import com.filipwiecha.gym.auth.services.TokenService;
+import com.filipwiecha.gym.user.models.User;
+import com.filipwiecha.gym.user.services.JpaUserDetailsService;
 
 
 

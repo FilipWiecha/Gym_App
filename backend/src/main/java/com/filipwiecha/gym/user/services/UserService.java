@@ -1,4 +1,4 @@
-package com.filipwiecha.gym.user.Service;
+package com.filipwiecha.gym.user.services;
 
 import java.util.UUID;
 
@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import com.filipwiecha.gym.config.ValidationResult;
-import com.filipwiecha.gym.user.UserRepository;
-import com.filipwiecha.gym.user.Models.User;
-import com.filipwiecha.gym.user.Models.UserMapper;
-import com.filipwiecha.gym.user.Models.UserUpdateDto;
+import com.filipwiecha.gym.user.models.User;
+import com.filipwiecha.gym.user.models.UserMapper;
+import com.filipwiecha.gym.user.models.UserUpdateDto;
+import com.filipwiecha.gym.user.repositories.UserRepository;
 
 
 

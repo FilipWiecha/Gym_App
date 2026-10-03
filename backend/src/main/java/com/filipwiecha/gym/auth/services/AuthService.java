@@ -1,4 +1,4 @@
-package com.filipwiecha.gym.auth;
+package com.filipwiecha.gym.auth.services;
 
 import java.util.Optional;
 
@@ -6,9 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.filipwiecha.gym.auth.Models.RegisterDto;
-import com.filipwiecha.gym.user.UserRepository;
-import com.filipwiecha.gym.user.Models.User;
+import com.filipwiecha.gym.auth.models.RegisterDto;
+import com.filipwiecha.gym.user.models.User;
+import com.filipwiecha.gym.user.repositories.UserRepository;
 
 @Service 
 public class AuthService {

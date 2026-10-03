@@ -1,6 +1,6 @@
-package com.filipwiecha.gym.auth.Models;
+package com.filipwiecha.gym.auth.models;
 
-import com.filipwiecha.gym.user.Models.UserDto;
+import com.filipwiecha.gym.user.models.UserDto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

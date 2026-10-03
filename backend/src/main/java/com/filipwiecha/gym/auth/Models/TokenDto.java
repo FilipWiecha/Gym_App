@@ -1,4 +1,4 @@
-package com.filipwiecha.gym.auth.Models;
+package com.filipwiecha.gym.auth.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

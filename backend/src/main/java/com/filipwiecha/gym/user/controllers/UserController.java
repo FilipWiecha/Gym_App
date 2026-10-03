@@ -1,4 +1,4 @@
-package com.filipwiecha.gym.user;
+package com.filipwiecha.gym.user.controllers;
 
 
 import org.springframework.http.HttpStatus;
@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.filipwiecha.gym.config.ValidationResult;
-import com.filipwiecha.gym.user.Models.UserDto;
-import com.filipwiecha.gym.user.Models.UserUpdateDto;
-import com.filipwiecha.gym.user.Service.UserService;
+import com.filipwiecha.gym.user.models.UserDto;
+import com.filipwiecha.gym.user.models.UserUpdateDto;
+import com.filipwiecha.gym.user.services.UserService;
 
 import jakarta.validation.Valid;
 

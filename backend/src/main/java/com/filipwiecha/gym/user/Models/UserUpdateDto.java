@@ -1,4 +1,4 @@
-package com.filipwiecha.gym.user.Models;
+package com.filipwiecha.gym.user.models;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Size;
