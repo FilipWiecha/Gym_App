@@ -60,11 +60,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 const userData = await getUserInfo();
                 setUser(userData);
 
-            } catch {
+            } catch(error) {
                 setAccessToken(null);
                 setUser(null);
                 setIsAuthenticated(false);
                 clearHasSession();
+                console.log(error);
             } finally {
                 setIsLoading(false);
             }

@@ -66,7 +66,7 @@ apiClient.interceptors.response.use((response) => {
         try {
 
             const response: AxiosResponse<TokenDto> = await axios.post(
-                `${import.meta.env.VITE_URL_BASE_BACKEND}${import.meta.env.VITE_URL_REFRESH_ACCESS_TOKEN}`,
+                `${import.meta.env.VITE_URL_BASE_BACKEND}${import.meta.env.VITE_ENDPOINT_AUTH_REFRESH}`,
                 {},
                 { withCredentials: true }
             );

@@ -10,6 +10,9 @@ import { RegisterPage } from '../pages/auth/Register';
 import { DashboardPage } from '../pages/main/Dashboard';
 import { UserProfilePage } from '../pages/user/profile/UserProfile';
 import { UserSettingsPage } from '../pages/user/settings/UserSettings';
+import { ExercisePage } from '../pages/exercise/Exercise';
+import { AddExercisePage } from '../pages/exercise/AddExercise';
+import { DetailsExercise } from '../pages/exercise/DetailsExercise';
 
 
 
@@ -51,6 +54,21 @@ export const router = createBrowserRouter([
                     {
                         path: '/settings',
                         element: <UserSettingsPage />
+                    },
+
+                    {
+                        path: '/exercise',
+                        element: <ExercisePage />
+                    },
+                    
+                    {
+                        path: '/exercise/new',
+                        element: <AddExercisePage />
+                    },
+
+                    {
+                        path: '/exercise/detail',
+                        element: <DetailsExercise />
                     }
                 ],
             },

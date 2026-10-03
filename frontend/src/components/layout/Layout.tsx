@@ -65,6 +65,9 @@ export function Layout() {
                         <Link to="/profile" className={styles.navItem} onClick={closeMenu}>
                             <User size={18} /> Profile
                         </Link>
+                        <Link to="/exercise" className={styles.navItem} onClick={closeMenu}>
+                            <User size={18} /> Exercises
+                        </Link>
                         <Link to="/settings" className={styles.navItem} onClick={closeMenu}>
                             <Settings size={18} /> Settings
                         </Link>

@@ -1,5 +1,6 @@
 package com.filipwiecha.gym.exercises.models;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import com.filipwiecha.gym.user.models.User;
@@ -36,7 +37,17 @@ public class Exercise {
 
     private boolean enabled;
 
+    private LocalDateTime createdAt;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    public Exercise(ExerciseDto exerciseDto, User user){
+        this.name = exerciseDto.getName();
+        this.description = exerciseDto.getDescription();
+        this.enabled = true;
+        this.user = user;
+        this.createdAt = null;
+    }
 }
