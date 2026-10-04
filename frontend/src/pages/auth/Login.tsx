@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useNavigate, Link } from 'react-router-dom';
 import { Mail, Lock, Eye, CheckCircle2 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 import { postLoginUser } from '../../features/auth/services/AuthService';
-
 
 export function LoginPage() {
     const { login } = useAuth();
@@ -11,6 +10,7 @@ export function LoginPage() {
     const [password, setPassword] = useState('');
     const [error, setError] = useState<string | null>(null);
     const [rememberMe, setRememberMe] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -18,29 +18,43 @@ export function LoginPage() {
         setError(null);
 
         try {
-            
             const data = await postLoginUser({ username: username, password });
             login(data.accessToken);
             navigate('/');
         } catch (err: any) {
-            setError('Invalid username or password');
+            setError('Nieprawidłowy login lub hasło');
         }
     };
 
     return (
         <div className="login-layout">
-            {/* Prawy panel logowania */}
+            {/* Lewy panel brandingowy widoczny na desktopie */}
+            <div className="login-sidebar">
+                <div className="logo">
+                    <div className="logo-icon">G</div>
+                    <span>GymApp</span>
+                </div>
+                <div className="sidebar-content">
+                    <span className="eyebrow">Witaj ponownie</span>
+                    <h1>Zaloguj się do swojego konta</h1>
+                    <p>Uzyskaj dostęp do swoich planów treningowych, historii ćwiczeń i statystyk.</p>
+                </div>
+                <div className="sidebar-footer">© {new Date().getFullYear()} GymApp</div>
+            </div>
+
             <main className="login-main">
                 <nav className="main-nav">
-                    <a href="/help">Help Center</a>
+                    <Link to="/help">Centrum pomocy</Link>
                 </nav>
 
-                <div className="form-wrapper">
+                {/* Zmieniono z form-wrapper na auth-wrapper */}
+                <div className="auth-wrapper">
                     <div className="form-header">
                         <h2>Zaloguj się</h2>
+                        <p>Wprowadź swoje dane autoryzacyjne.</p>
                     </div>
 
-                    <form onSubmit={handleSubmit} className="login-form">
+                    <form onSubmit={handleSubmit}>
                         {error && <div className="error-message">{error}</div>}
 
                         <div className="input-group">
@@ -49,10 +63,10 @@ export function LoginPage() {
                                 <Mail className="icon-left" size={18} />
                                 <input
                                     id="username"
-                                    type="username"
+                                    type="text"
                                     value={username}
                                     onChange={(e) => setUsername(e.target.value)}
-                                    placeholder="filipwiecha12"
+                                    placeholder="Wprowadź nazwę użytkownika"
                                     required
                                 />
                                 {username && <CheckCircle2 className="icon-right success" size={18} />}
@@ -65,13 +79,17 @@ export function LoginPage() {
                                 <Lock className="icon-left" size={18} />
                                 <input
                                     id="password"
-                                    type="password"
+                                    type={showPassword ? "text" : "password"}
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     placeholder="••••••••••"
                                     required
                                 />
-                                <Eye className="icon-right action" size={18} />
+                                <Eye 
+                                    className="icon-right action" 
+                                    size={18} 
+                                    onClick={() => setShowPassword(!showPassword)}
+                                />
                             </div>
                         </div>
 
@@ -82,24 +100,24 @@ export function LoginPage() {
                                     checked={rememberMe}
                                     onChange={(e) => setRememberMe(e.target.checked)}
                                 />
-                                Remember me
+                                Zapamiętaj mnie
                             </label>
-                            <a href="/reset-password" className="text-link">Forgot your password?</a>
+                            <Link to="/reset-password" className="text-link">Zapomniałeś hasła?</Link>
                         </div>
 
                         <button type="submit" className="submit-btn">
-                            Sign in
+                            Zaloguj się
                         </button>
                     </form>
 
                     <p className="register-prompt">
-                        Don't have an account yet? <a href="/register">Create an account</a>
+                        Nie masz jeszcze konta? <Link to="/register">Utwórz konto</Link>
                     </p>
                 </div>
 
                 <div className="main-footer">
-                    <a href="/privacy">Privacy</a>
-                    <a href="/terms">Conditions</a>
+                    <Link to="/privacy">Prywatność</Link>
+                    <Link to="/terms">Regulamin</Link>
                 </div>
             </main>
         </div>

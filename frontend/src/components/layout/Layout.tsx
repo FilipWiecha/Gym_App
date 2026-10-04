@@ -68,13 +68,19 @@ export function Layout() {
                         <Link to="/exercise" className={styles.navItem} onClick={closeMenu}>
                             <User size={18} /> Exercises
                         </Link>
-                        <Link to="/settings" className={styles.navItem} onClick={closeMenu}>
-                            <Settings size={18} /> Settings
+                        <Link to="/workout" className={styles.navItem} onClick={closeMenu}>
+                            <User size={18} /> Workouts
+                        </Link>
+                        <Link to="/trainingplan" className={styles.navItem} onClick={closeMenu}>
+                            <User size={18} /> Training plans
                         </Link>
                     </nav>
                 </div>
 
                 <div className={styles.sidebarBottom}>
+                    <Link to="/settings" className={styles.navItem} onClick={closeMenu}>
+                        <Settings size={18} /> Settings
+                    </Link>
                     <button onClick={() => { closeMenu(); handleLogout(); }} className={styles.logoutBtn}>
                         <LogOut size={16} /> Logout
                     </button>

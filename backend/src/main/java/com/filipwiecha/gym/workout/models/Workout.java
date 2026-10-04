@@ -42,10 +42,24 @@ public class Workout {
 
     private boolean enabled;
 
+    private LocalDateTime createdAt;
+
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WorkoutExerciseEntry> executedExercises = new ArrayList<>();
+
+    
+    public Workout(WorkoutDto workoutDto, User user){
+        this.title = workoutDto.getTitle();
+        this.description = workoutDto.getDescription();
+        this.enabled = true;
+        this.user = user;
+        this.createdAt = LocalDateTime.now();
+        this.startDate = workoutDto.getStartDate() != null ? workoutDto.getStartDate() : LocalDateTime.now();
+    }
 }
+
+// to do auto localdatetime i createdat

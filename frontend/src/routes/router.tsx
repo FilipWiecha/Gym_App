@@ -10,9 +10,15 @@ import { RegisterPage } from '../pages/auth/Register';
 import { DashboardPage } from '../pages/main/Dashboard';
 import { UserProfilePage } from '../pages/user/profile/UserProfile';
 import { UserSettingsPage } from '../pages/user/settings/UserSettings';
-import { ExercisePage } from '../pages/exercise/Exercise';
-import { AddExercisePage } from '../pages/exercise/AddExercise';
-import { DetailsExercise } from '../pages/exercise/DetailsExercise';
+import { ExerciseAddPage } from '../pages/exercise/ExerciseAddPage';
+import { ExerciseDetailsPage } from '../pages/exercise/ExerciseDetailsPage';
+import { WorkoutListPage } from '../pages/workout/WorkoutListPage';
+import { TrainingPlanListPage } from '../pages/trainingplan/TrainingPlanListPage';
+import { TrainingPlanAddPage } from '../pages/trainingplan/TrainingPlanAddPage';
+import { TrainingPlanDetailsPage } from '../pages/trainingplan/TrainingPlanDetailsPage';
+import { WorkoutAddPage } from '../pages/workout/WorkoutAddPage';
+import { WorkoutDetailsPage } from '../pages/workout/WorkoutDetailsPage';
+import { ExerciseListPage } from '../pages/exercise/ExerciseListPage';
 
 
 
@@ -58,17 +64,47 @@ export const router = createBrowserRouter([
 
                     {
                         path: '/exercise',
-                        element: <ExercisePage />
+                        element: <ExerciseListPage />
                     },
                     
                     {
                         path: '/exercise/new',
-                        element: <AddExercisePage />
+                        element: <ExerciseAddPage />
                     },
 
                     {
-                        path: '/exercise/detail',
-                        element: <DetailsExercise />
+                        path: '/exercise/:id',
+                        element: <ExerciseDetailsPage />
+                    },
+
+                    {
+                        path: '/workout',
+                        element: <WorkoutListPage />
+                    },
+
+                    {
+                        path: '/workout/new',
+                        element: <WorkoutAddPage />
+                    },
+
+                    {
+                        path: '/workout/:id',
+                        element: <WorkoutDetailsPage />
+                    },
+
+                    {
+                        path: '/trainingplan',
+                        element: <TrainingPlanListPage />
+                    },
+
+                    {
+                        path: '/trainingplan/new',
+                        element: <TrainingPlanAddPage />
+                    },
+
+                    {
+                        path: '/trainingplan/:id',
+                        element: <TrainingPlanDetailsPage />
                     }
                 ],
             },

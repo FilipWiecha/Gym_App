@@ -14,7 +14,7 @@ export const useRegisterForm = () => {
         password: '',
         birthDate: ''
     });
-    const [termsAccepted, setTermsAccepted] = useState(true);
+    const [termsAccepted, setTermsAccepted] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

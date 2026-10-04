@@ -42,4 +42,16 @@ public class WorkoutExerciseEntry {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "exercise_id", nullable = false)
     private Exercise exercise;
+
+    public WorkoutExerciseEntry(WorkoutExerciseEntryDto wDto){
+        this.actualReps = wDto.getActualReps();
+        this.actualSets = wDto.getActualSets();
+    }
+
+    public WorkoutExerciseEntry(WorkoutExerciseEntryDto wDto, Workout workout, Exercise exercise){
+        this.actualReps = wDto.getActualReps();
+        this.actualSets = wDto.getActualSets();
+        this.workout = workout;
+        this.exercise = exercise;
+    }
 }

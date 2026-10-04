@@ -1,3 +1,6 @@
+/* =========================================
+   1. ZMIENNE I RESET
+   ========================================= */
 :root {
     --color-bg-dark: #1e2128;
     --color-bg-light: #ffffff;
@@ -10,23 +13,26 @@
     --color-border: #e5e7eb;
     --color-success: #10b981;
     --color-error: #ef4444;
+    --color-default-background: #f8fafc;
     
-    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
     margin: 0;
     font-family: var(--font-family);
     -webkit-font-smoothing: antialiased;
+    background-color: var(--color-default-background);
 }
 
-/* Układ */
+/* =========================================
+   2. GŁÓWNY UKŁAD (LAYOUT)
+   ========================================= */
 .login-layout {
     display: flex;
-    min-height: 100vh;
+    min-height: 90dvh;
 }
 
-/* Lewy panel */
 .login-sidebar {
     background-color: var(--color-bg-dark);
     color: var(--color-text-dark);
@@ -37,6 +43,50 @@ body {
     justify-content: space-between;
 }
 
+.login-main {
+    flex: 1;
+    background-color: var(--color-default-background);
+    font-family: var(--font-family);
+    display:block;
+    flex-direction: column;
+    padding: 40px;
+    position: relative;
+    scroll-behavior:smooth;
+}
+
+.top-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.page-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.bottom-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+    gap: 12px;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 32px;
+    width: 100%;
+}
+
+/* =========================================
+   3. TYPOGRAFIA I LOGO
+   ========================================= */
 .logo {
     display: flex;
     align-items: center;
@@ -80,44 +130,13 @@ body {
     margin-bottom: 32px;
 }
 
-.feature {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: var(--color-text-muted);
-    font-size: 14px;
-}
-
-.sidebar-footer {
-    color: var(--color-text-muted);
-    font-size: 12px;
-}
-
-/* Prawy panel */
-.login-main {
-    flex: 1;
-    background-color: var(--color-bg-light);
-    display: flex;
-    flex-direction: column;
-    padding: 40px;
-    position: relative;
-}
-
-.main-nav {
-    display: flex;
-    justify-content: flex-end;
-}
-
-.main-nav a, .main-footer a {
-    color: var(--color-text-light-muted);
-    text-decoration: none;
-    font-size: 14px;
-}
-
+/* =========================================
+   4. FORMULARZE I INPUTY
+   ========================================= */
 .form-wrapper {
-    max-width: 420px;
+    max-width: 600px;
     width: 100%;
-    margin: auto;
+    margin: 0 auto auto auto;
 }
 
 .form-header h2 {
@@ -132,45 +151,15 @@ body {
     margin: 0 0 32px 0;
 }
 
-.google-btn {
-    width: 100%;
+.form-row {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    background: white;
-    border: 1px solid var(--color-border);
-    padding: 12px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
+    gap: 16px;
+    margin-bottom: 20px;
 }
 
-.google-btn:hover {
-    background: #f9fafb;
-}
-
-.divider {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 24px 0;
-}
-
-.divider::before,
-.divider::after {
-    content: '';
+.form-row .input-group {
     flex: 1;
-    border-bottom: 1px solid var(--color-border);
-}
-
-.divider span {
-    padding: 0 16px;
-    color: var(--color-text-light-muted);
-    font-size: 12px;
-    text-transform: uppercase;
+    margin-bottom: 0;
 }
 
 .input-group {
@@ -191,17 +180,26 @@ body {
     align-items: center;
 }
 
-.input-with-icon input {
+.input-with-icon input,
+.input-group > input {
     width: 100%;
-    padding: 12px 40px;
+    padding: 12px 16px;
     border: 1px solid var(--color-border);
     border-radius: 6px;
     font-size: 14px;
     outline: none;
+    box-sizing: border-box;
     transition: border-color 0.2s;
 }
 
-.input-with-icon input:focus {
+.input-with-icon input {
+    padding-left: 40px;
+}
+
+.input-with-icon input:focus,
+.input-group > input:focus,
+.divInput:focus,
+.divInput:focus-within {
     border-color: var(--color-primary);
 }
 
@@ -211,19 +209,349 @@ body {
     color: var(--color-text-light-muted);
 }
 
-.input-with-icon .icon-right {
+.input-with-icon .icon-right,
+.icons-right {
     position: absolute;
     right: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-.icon-right.success { color: var(--color-success); }
-.icon-right.action { color: var(--color-text-light-muted); cursor: pointer; }
+.icon-action { color: var(--color-text-light-muted); cursor: pointer; }
+.icon-success { color: var(--color-success); }
+.input-with-icon.valid input { border-color: var(--color-success); }
+.input-hint { display: block; font-size: 12px; color: var(--color-text-light-muted); margin-top: 6px; }
+
+.divInput {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    transition: border-color 0.2s;
+}
+
+/* =========================================
+   5. PRZYCISKI
+   ========================================= */
+.btn-primary, .submit-btn {
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.submit-btn { width: 100%; padding: 14px; font-size: 15px; }
+.btn-primary:hover:not(:disabled), .submit-btn:hover { background-color: var(--color-primary-hover); }
+.btn-primary:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.btn-secondary, .google-btn {
+    background-color: white;
+    color: var(--color-text-main);
+    border: 1px solid var(--color-border);
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.google-btn { width: 100%; padding: 12px; }
+.btn-secondary:hover:not(:disabled), .google-btn:hover { background-color: #f9fafb; }
+.btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; background-color: #f3f4f6; color: #9ca3af; border-color: #e5e7eb; }
+
+.btn-danger {
+    background-color: white;
+    color: var(--color-error);
+    border: 1px solid var(--color-error);
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.2s;
+}
+
+.btn-danger:hover:not(:disabled) { background-color: #fef2f2; }
+
+.icon-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    padding: 4px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon-btn:hover { background-color: #f3f4f6; color: var(--color-text-main); }
+
+/* =========================================
+   6. KARTY I LISTY (GRIDS)
+   ========================================= */
+.card-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.card-item {
+    padding: 20px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: var(--color-bg-light);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.card-header h3 { margin: 0; font-size: 18px; color: var(--color-text-main); }
+.card-description { color: var(--color-text-muted); font-size: 14px; margin-bottom: 20px; }
+
+.card-actions-menu {
+    position: absolute;
+    top: 48px;
+    right: 20px;
+    background-color: var(--color-bg-light);
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+    min-width: 150px;
+    overflow: hidden;
+}
+
+.card-actions-menu button {
+    background: none;
+    border: none;
+    padding: 12px 16px;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+    width: 100%;
+    color: var(--color-text-main);
+    transition: background-color 0.2s;
+}
+
+.card-actions-menu button:hover { background-color: #f9fafb; }
+.card-actions-menu button.delete-option { color: var(--color-error); }
+.card-actions-menu button.delete-option:hover { background-color: #fef2f2; }
+.card-footer { display: flex; justify-content: flex-end; margin-top: auto; padding-top: 16px; }
+
+/* =========================================
+   7. TRYB ODCZYTU (READ-ONLY)
+   ========================================= */
+.read-only-field {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.read-only-label {
+    font-size: 12px;
+    color: var(--color-text-light-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.read-only-value {
+    font-size: 16px;
+    color: var(--color-text-main);
+    margin: 0;
+}
+
+/* =========================================
+   8. MODALE I KOMUNIKATY
+   ========================================= */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: var(--color-bg-light);
+    padding: 24px;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 400px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.modal-content h3 { margin: 0 0 12px 0; color: var(--color-text-main); }
+.modal-content p { color: var(--color-text-muted); margin: 0 0 24px 0; font-size: 14px; line-height: 1.5; }
+.modal-actions { display: flex; justify-content: flex-end; gap: 12px; }
+
+.error-message {
+    background-color: #fef2f2;
+    color: var(--color-error);
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.success-banner {
+    background-color: var(--color-success);
+    color: white;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* =========================================
+   9. NARZĘDZIA I ANIMACJE
+   ========================================= */
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+    animation: spin 1s linear infinite;
+}
+
+/* =========================================
+   10. MEDIA QUERIES (MOBILE RWD)
+   ========================================= */
+@media (max-width: 900px) {
+    .login-sidebar {
+        display: none;
+    }
+    .login-main {
+        padding: 24px 20px;
+    }
+    .form-header h2 {
+        font-size: 24px;
+    }
+
+    .login-layout{
+        padding-bottom: 10dvh;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-main {
+        padding: 16px;
+    }
+    
+    .top-nav {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 16px;
+    }
+    
+    .page-header-actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .form-row {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .bottom-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .bottom-actions button {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .card-footer button {
+        width: 100%;
+    }
+}
+
+
+/* =========================================
+   11. STRONY LOGOWANIA I REJESTRACJI (AUTH)
+   ========================================= */
+
+.main-nav {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.main-footer {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: auto;
+    width: 100%;
+    padding-top: 20px;
+}
+
+.main-nav a, 
+.main-footer a {
+    color: var(--color-text-light-muted);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.main-nav a:hover, 
+.main-footer a:hover {
+    color: var(--color-text-main);
+}
 
 .form-options {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;
+    width: 100%;
 }
 
 .checkbox-label {
@@ -239,6 +567,7 @@ body {
     accent-color: var(--color-primary);
     width: 16px;
     height: 16px;
+    margin: 0;
 }
 
 .text-link {
@@ -248,21 +577,8 @@ body {
     font-weight: 500;
 }
 
-.submit-btn {
-    width: 100%;
-    background-color: var(--color-primary);
-    color: white;
-    border: none;
-    padding: 14px;
-    border-radius: 6px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-.submit-btn:hover {
-    background-color: var(--color-primary-hover);
+.text-link:hover {
+    text-decoration: underline;
 }
 
 .register-prompt {
@@ -278,145 +594,34 @@ body {
     font-weight: 600;
 }
 
-.main-footer {
-    display: flex;
-    justify-content: center;
-    gap: 24px;
-    margin-top: auto;
-}
-
-.error-message {
-    background-color: #fef2f2;
-    color: var(--color-error);
-    padding: 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    margin-bottom: 20px;
-    text-align: center;
-}
-
-/* Responsywność */
-@media (max-width: 900px) {
-    .login-sidebar {
-        display: none;
-    }
-    .form-wrapper {
-        margin: auto;
-    }
+.register-prompt a:hover {
+    text-decoration: underline;
 }
 
 
-/* Układ wielu kolumn w formularzu */
-.form-row {
-    display: flex;
-    gap: 16px;
-    margin-bottom: 20px;
-}
-
-.form-row .input-group {
-    flex: 1;
-    margin-bottom: 0;
-}
-
-/* Wskazówki pod polami (np. adres email) */
-.input-hint {
-    display: block;
-    font-size: 12px;
-    color: var(--color-text-light-muted);
-    margin-top: 6px;
-}
-
-/* Pola podstawowe bez ikon (wymagają paddingu jak zwykłe inputy) */
-.input-group > input {
+.auth-wrapper {
+    max-width: 420px;
     width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--color-border);
-    border-radius: 6px;
-    font-size: 14px;
-    outline: none;
-    box-sizing: border-box;
-    transition: border-color 0.2s;
-}
-
-.input-group > input:focus {
-    border-color: var(--color-primary);
-}
-
-/* Specyficzne style pola z ikonami po prawej stronie */
-.icons-right {
-    position: absolute;
-    right: 12px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.icon-action { color: var(--color-text-light-muted); cursor: pointer; }
-.icon-success { color: var(--color-success); }
-
-/* Weryfikacja hasła i obramowanie */
-.input-with-icon.valid input {
-    border-color: var(--color-success);
-}
-
-.password-group {
-    margin-bottom: 24px;
-}
-
-.password-strength {
-    margin-top: 8px;
-}
-
-.strength-req {
-    display: block;
-    font-size: 12px;
-    color: var(--color-success);
-    margin-bottom: 8px;
-}
-
-/* Gdy hasło nie spełnia wymagań, tekst wymagań jest szary - można modyfikować wg potrzeb */
-.strength-req:not(.met) {
-    color: var(--color-success); /* Na zrzucie ekranu tekst jest zielony nawet przy pustym polu, zachowano ten stan */
-}
-
-.strength-bars {
-    display: flex;
-    gap: 4px;
-    margin-bottom: 8px;
-}
-
-.strength-bars .bar {
-    height: 4px;
-    flex: 1;
-    background-color: var(--color-border);
-    border-radius: 2px;
-    transition: background-color 0.3s;
-}
-
-.strength-bars .bar.active {
-    background-color: var(--color-success);
-}
-
-.strength-status {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: var(--color-success);
-    font-size: 12px;
-    font-weight: 500;
+    margin: auto;
 }
 
 .divInput {
-  display: block;
-  position: relative;
-  width: 100%;
-  padding: 0rem 0rem 0rem 0rem;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  transition: border-color 0.2s;
+    display: flex;
+    align-items: center;
+    max-height: 42px;
+    width: 100%;
+    padding: 0 0 0 40px; 
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+    background-color: transparent;
 }
 
-.divInput:focus,
-.divInput:focus-within {
-  border-color: var(--color-primary);
+.divInput > div, .divInput input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 12px 0;
+    background: transparent;
 }

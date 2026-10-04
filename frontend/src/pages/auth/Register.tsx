@@ -1,32 +1,44 @@
 import { Link } from 'react-router-dom';
 import { RegisterForm } from '../../features/auth/components/RegisterForm';
 
-import styles from "./auth.module.css";
-
 export function RegisterPage() {
     return (
         <div className="login-layout">
+            {/* Lewy panel brandingowy */}
+            <div className="login-sidebar">
+                <div className="logo">
+                    <div className="logo-icon">G</div>
+                    <span>GymApp</span>
+                </div>
+                <div className="sidebar-content">
+                    <span className="eyebrow">Rozpocznij</span>
+                    <h1>Zbuduj formę życia</h1>
+                    <p>Załóż darmowe konto i śledź swoje postępy z łatwością dzięki nowoczesnym narzędziom.</p>
+                </div>
+                <div className="sidebar-footer">© {new Date().getFullYear()} GymApp</div>
+            </div>
+
             <main className="login-main">
                 <nav className="main-nav">
-                    <Link to="/help">Help Center</Link>
+                    <Link to="/help">Centrum pomocy</Link>
                 </nav>
 
-                <div className="form-wrapper">
+                <div className="auth-wrapper">
                     <div className="form-header">
-                        <h2>Create an account</h2>
-                        <p>The account is completely free.</p>
+                        <h2>Utwórz konto</h2>
+                        <p>Konto w aplikacji jest całkowicie darmowe.</p>
                     </div>
 
                     <RegisterForm />
 
                     <p className="register-prompt">
-                        Already have an account? <Link to="/login">Log in</Link>
+                        Masz już konto? <Link to="/login">Zaloguj się</Link>
                     </p>
                 </div>
 
                 <div className="main-footer">
-                    <Link to="/privacy">Privacy</Link>
-                    <Link to="/terms">Conditions</Link>
+                    <Link to="/privacy">Prywatność</Link>
+                    <Link to="/terms">Regulamin</Link>
                 </div>
             </main>
         </div>

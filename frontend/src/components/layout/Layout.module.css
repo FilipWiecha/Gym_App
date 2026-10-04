@@ -137,7 +137,11 @@
         padding: 16px 20px;
         border-bottom: 1px solid #e2e8f0;
         width: 100%;
-        z-index: 100;
+        height: 8dvh;
+
+        position:fixed;
+        top:0;
+        z-index: 102;
     }
 
     .logoDesktop {
@@ -155,10 +159,11 @@
     }
 
     .sidebar {
-        position: fixed;
+        position:fixed;
         top: 0;
         left: -260px;
-        height: 100vh;
+        padding-top: 70px;
+        height: 100dvh;
         z-index: 101;
         transition: left 0.3s ease-in-out;
         box-shadow: 4px 0 12px rgba(0, 0, 0, 0.05);
@@ -166,6 +171,7 @@
 
     .sidebarOpen {
         left: 0;
+        overflow: hidden;
     }
 
     .backdrop {
@@ -179,6 +185,6 @@
     }
 
     .mainContent {
-        padding: 16px;
+        padding-top: 8dvh;
     }
 }
