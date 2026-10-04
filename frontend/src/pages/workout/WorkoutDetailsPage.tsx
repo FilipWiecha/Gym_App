@@ -127,7 +127,8 @@ export function WorkoutDetailsPage() {
                 <WorkoutExerciseManager 
                     workoutId={workout.id} 
                     exercises={workout.exercises || []} 
-                    onWorkoutUpdated={fetchWorkoutData} 
+                    onWorkoutUpdated={fetchWorkoutData}
+                    isEditing={isEditing}
                 />
             </div>
 

@@ -29,7 +29,7 @@ export function ExerciseCard({ exercise, backUrlSearch, onDelete }: ExerciseCard
                     <>
                         <div style={{ position: 'fixed', inset: 0, zIndex: 9 }} onClick={() => setIsMenuOpen(false)} />
                         <div className="card-actions-menu">
-                            <button onClick={() => navigate(`/exercise/${exercise.id}`, { state: { exercise: exercise, search: backUrlSearch } })}>
+                            <button onClick={() => navigate(`/exercise/${exercise.id}`, { state: { exercise: exercise, search: backUrlSearch}})}>
                                 Szczegóły / Edycja
                             </button>
                             <button className="delete-option" onClick={() => { setIsMenuOpen(false); exercise.id && onDelete(exercise.id); }}>

@@ -18,6 +18,7 @@ import com.filipwiecha.gym.auth.models.RegisterDto;
 import com.filipwiecha.gym.auth.models.TokenDto;
 import com.filipwiecha.gym.auth.services.AuthService;
 import com.filipwiecha.gym.auth.services.TokenService;
+import com.filipwiecha.gym.auth.services.TotpService;
 import com.filipwiecha.gym.user.models.User;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,19 +32,22 @@ public class AuthController {
     private final AuthService authService;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
+    private final TotpService totpService;
 
     public AuthController(
         AuthService as, 
         AuthenticationManager am, 
-        TokenService ts
+        TokenService ts,
+        TotpService totps
     ){
         this.authService = as;
         this.authenticationManager = am;
         this.tokenService = ts;
+        this.totpService = totps;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> loginUser(
+    public ResponseEntity<?> loginUser(
         @RequestBody LoginDto request,
         HttpServletRequest httpRequest
     ) {
@@ -53,8 +57,22 @@ public class AuthController {
         
         User user = (User) authentication.getPrincipal();
 
+        if (user.isTotpEnabled()) {
+            if (request.getTotpCode() == null || request.getTotpCode().isBlank()) {
+                // Kod 428 wymaga podania dodatkowych danych (wymuszenie wyświetlenia pola w React)
+                return ResponseEntity.status(HttpStatus.PRECONDITION_REQUIRED)
+                        .body("TOTP_REQUIRED");
+            }
+
+            if (!totpService.verifyCode(user.getTotpSecret(), request.getTotpCode())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body("INVALID_TOTP_CODE");
+            }
+        }
+
         String accessToken = tokenService.generateAccessToken(authentication);
-        String refreshToken = tokenService.generateRefreshToken(authentication);
+        String refreshToken = tokenService.generateRefreshToken(authentication, request.isRememberMe());
+        long cookieMaxAge = request.isRememberMe() ? (30 * 24 * 60 * 60) : -1;
 
         String userAgent = httpRequest.getHeader(HttpHeaders.USER_AGENT);
         String ipAddress = httpRequest.getRemoteAddr();
@@ -64,8 +82,8 @@ public class AuthController {
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", refreshToken)
             .httpOnly(true)
             .secure(false) // false dla HTTP (localhost)
-            .path("/")
-            .maxAge(60 * 60 * 24)
+            .path("/api/auth/refresh")
+            .maxAge(cookieMaxAge)
             .sameSite("Lax") // Zezwala na przesyłanie ciasteczka przy nawigacji
             .build();
 
@@ -87,7 +105,7 @@ public class AuthController {
         ResponseCookie deleteCookie = ResponseCookie.from("refresh_token", "")
                 .httpOnly(true)
                 .secure(false)
-                .path("/")
+                .path("/api/auth/refresh")
                 .maxAge(0)
                 .sameSite("Lax")
                 .build();

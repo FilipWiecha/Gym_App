@@ -3,13 +3,13 @@ import { Link } from "react-router-dom";
 import { Activity, ChevronRight, ClipboardList, Dumbbell } from "lucide-react";
 
 import { PageLayout } from "../../components/layout/PageLayout";
-import { getUserInfo } from "../../features/user/services/UserService";
 import { getWorkouts } from "../../features/workout/services/WorkoutService";
 import { getTrainingPlans } from "../../features/trainingplan/services/TrainingPlanService";
 import type { WorkoutDto } from "../../features/workout/types/WorkoutDto";
 import type { TrainingPlanDto } from "../../features/trainingplan/types/TrainingPlanDto";
 
 import styles from "./DashboardPage.module.css";
+import { useAuth } from "../../context/AuthContext";
 
 const RECENT_WORKOUTS = 5;
 const PLANS_PREVIEW = 4;
@@ -35,7 +35,8 @@ const formatToday = () => {
 };
 
 export function DashboardPage() {
-    const [firstName, setFirstName] = useState("");
+    const {user} = useAuth();
+    const firstName = user?.firstName || "";
     const [workouts, setWorkouts] = useState<WorkoutDto[]>([]);
     const [plans, setPlans] = useState<TrainingPlanDto[]>([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -46,14 +47,13 @@ export function DashboardPage() {
 
         (async () => {
             // allSettled: awaria jednej sekcji nie blokuje pozostałych
-            const [userRes, workoutsRes, plansRes] = await Promise.allSettled([
-                getUserInfo(),
+            const [ workoutsRes, plansRes] = await Promise.allSettled([
+
                 getWorkouts(0),
                 getTrainingPlans(0),
             ]);
             if (cancelled) return;
 
-            if (userRes.status === "fulfilled") setFirstName(userRes.value.firstName);
             if (workoutsRes.status === "fulfilled") setWorkouts(workoutsRes.value.content);
             if (plansRes.status === "fulfilled") setPlans(plansRes.value.content);
             if (workoutsRes.status === "rejected" && plansRes.status === "rejected") {

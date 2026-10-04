@@ -13,12 +13,16 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.filipwiecha.gym.auth.models.TotpSetupResponse;
+import com.filipwiecha.gym.auth.models.TotpVerifyRequest;
 import com.filipwiecha.gym.auth.models.UserSessionDto;
 import com.filipwiecha.gym.auth.services.AuthService;
+import com.filipwiecha.gym.auth.services.TotpService;
 import com.filipwiecha.gym.config.ValidationResult;
 import com.filipwiecha.gym.user.models.User;
 import com.filipwiecha.gym.user.models.UserDto;
@@ -33,10 +37,16 @@ public class UserController {
     
     private final UserService userService;
     private final AuthService authService;
+    private final TotpService totpService;
 
-    public UserController(UserService us, AuthService as){
+    public UserController(
+        UserService us, 
+        AuthService as,
+        TotpService ts
+    ){
         this.userService = us;
         this.authService = as;
+        this.totpService = ts;
     }
 
     @GetMapping("/me")
@@ -69,6 +79,59 @@ public class UserController {
         @PathVariable UUID sessionId
     ) {
         authService.revokeSessionById(sessionId, jwt.getSubject());
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/totp/setup")
+    public ResponseEntity<TotpSetupResponse> setupTotp(@AuthenticationPrincipal Jwt jwt) throws Exception {
+        User user = userService.getUserByUsername(jwt.getSubject());
+
+        if (user.isTotpEnabled()) {
+            throw new IllegalArgumentException("TOTP is already enabled");
+        }
+
+        String secret = totpService.generateSecret();
+        user.setTotpSecret(secret);
+        this.userService.saveUser(user);
+
+        String qrCodeUri = totpService.getQrCodeImageUri(secret, user.getEmail());
+        return ResponseEntity.ok(new TotpSetupResponse(secret, qrCodeUri));
+    }
+
+    @PostMapping("/totp/enable")
+    public ResponseEntity<Void> enableTotp(
+            @AuthenticationPrincipal Jwt jwt, 
+            @RequestBody TotpVerifyRequest request) {
+            
+        User user = userService.getUserByUsername(jwt.getSubject());
+
+        if (user.isTotpEnabled()) {
+            throw new IllegalArgumentException("TOTP is already enabled");
+        }
+
+        if (!totpService.verifyCode(user.getTotpSecret(), request.code())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build(); // Niewłaściwy kod
+        }
+
+        user.setTotpEnabled(true);
+        this.userService.saveUser(user);
+        return ResponseEntity.ok().build();
+    }
+    
+    @PostMapping("/totp/disable")
+    public ResponseEntity<Void> disableTotp(
+            @AuthenticationPrincipal Jwt jwt,
+            @RequestBody TotpVerifyRequest request) {
+            
+        User user = userService.getUserByUsername(jwt.getSubject());
+
+        if (!totpService.verifyCode(user.getTotpSecret(), request.code())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+        user.setTotpEnabled(false);
+        user.setTotpSecret(null);
+        this.userService.saveUser(user);
         return ResponseEntity.ok().build();
     }
 

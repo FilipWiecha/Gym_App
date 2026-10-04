@@ -14,12 +14,12 @@ import { ActiveSessionsManager } from '../../../features/user/components/ActiveS
 ;
 
 export function UserSettingsPage() {
-    const { user, setUser } = useAuth();
+    const { setUser } = useAuth();
 
     const [formData, setFormData] = useState<UserUpdateDto>({
-        firstName: user?.firstName || '',
-        lastName: user?.lastName || '',
-        email: user?.email || '',
+        firstName:  '',
+        lastName: '',
+        email: '',
         currentPassword: '',
         newPassword: '',
     });
@@ -56,9 +56,13 @@ export function UserSettingsPage() {
             setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '' }));
             setStatus({ type: 'success', message: 'Wszystkie zmiany zostały zapisane' });
         } catch (error: any) {
-            await handleApiError(error);
-            setStatus({ type: 'error', message: fieldErrors?.global || 'Nie udało się zaktualizować danych' });
+            const parsedErrors = handleApiError(error);
+            setStatus({ 
+                type: 'error', 
+                message: parsedErrors?.fieldErrors?.global || 'Nie udało się zaktualizować danych' 
+            });
         } finally {
+            //setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '' }));
             setIsSaving(false);
         }
     };

@@ -1,22 +1,20 @@
 import { Mail, User, CalendarIcon, Lock } from 'lucide-react';
 import { useRegisterForm } from '../hooks/useRegisterForm';
 import { AppDatePicker } from '../../../components/common/AppDatePicker';
-import { PasswordInput, ShowPasswordStrength } from './PasswordInput';
+import { PasswordInput, PasswordStrengthIndicator, usePasswordStrength } from './PasswordInput';
 
 export const RegisterForm = () => {
     const {
         formData,
         termsAccepted,
         error,
-        isLengthValid,
-        hasNumber,
-        hasSpecial,
-        isPasswordStrong,
         handleChange,
         handleDateChange,
         handleCheckboxChange,
         handleSubmit
     } = useRegisterForm();
+
+    const{ isPasswordStrong} = usePasswordStrength(formData.password || "");
 
     return (
         <form onSubmit={handleSubmit} className="login-form">
@@ -111,13 +109,9 @@ export const RegisterForm = () => {
  
             </div>
 
-                <div className={`divPassword ${formData.password.length > 0 ? "show" : ""}`}>
-                    <ShowPasswordStrength 
-                        isLengthValid={isLengthValid}
-                        hasNumber={hasNumber}
-                        hasSpecial={hasSpecial}
-                    />
-                </div>
+            <div className={`divPassword ${formData.password.length > 0 ? "show" : ""}`}>
+                <PasswordStrengthIndicator password={formData.password || ""} />
+            </div>
 
             <div className="form-options">
                 <label className="checkbox-label">

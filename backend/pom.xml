@@ -125,6 +125,13 @@
 			<version>1.5.5.Final</version>
     	</dependency>
 
+		<!-- TOTP CODES -->
+		 <dependency>
+			<groupId>dev.samstevens.totp</groupId>
+			<artifactId>totp</artifactId>
+			<version>1.7.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

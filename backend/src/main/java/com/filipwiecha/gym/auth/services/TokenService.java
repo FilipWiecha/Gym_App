@@ -29,7 +29,7 @@ public class TokenService {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(1, ChronoUnit.HOURS))
+                .expiresAt(now.plus(5, ChronoUnit.MINUTES))
                 .subject(authentication.getName())
                 .claim("roles", roles)
                 .build();
@@ -37,15 +37,16 @@ public class TokenService {
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }
 
-    public String generateRefreshToken(Authentication authentication){
+    public String generateRefreshToken(Authentication authentication, boolean rememberMe) {
         Instant now = Instant.now();
+        long days = rememberMe ? 30 : 1;
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
-        .issuer("self")
-        .issuedAt(now)
-        .expiresAt(now.plus(1, ChronoUnit.DAYS))
-        .subject(authentication.getName())
-        .build();
+                .issuer("self")
+                .issuedAt(now)
+                .expiresAt(now.plus(days, ChronoUnit.DAYS))
+                .subject(authentication.getName())
+                .build();
 
         return this.encoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
     }

@@ -6,31 +6,33 @@ const ENDPOINT_EXERCISE = import.meta.env.VITE_ENDPOINT_EXERCISE;
 
 export const getExercises = async (pageNumber: number = 0): Promise<SliceResponse<ExerciseDto>> => {
     const response = await apiClient.get<SliceResponse<ExerciseDto>>(ENDPOINT_EXERCISE, {
-        params: { page: pageNumber }
+        params: { page: pageNumber },
+        withCredentials: false,
     });
     return response.data;
 };
 
 export const searchExercises = async (query: string, pageNumber: number = 0): Promise<SliceResponse<ExerciseDto>> => {
     const response = await apiClient.get<SliceResponse<ExerciseDto>>(`${ENDPOINT_EXERCISE}/search`, {
-        params: { query, page: pageNumber }
+        params: { query, page: pageNumber },
+        withCredentials: false,
     });
     return response.data;
 };
 
 export const getExercise = async (id: string): Promise<ExerciseDto> => {
-    const response = await apiClient.get<ExerciseDto>(`${ENDPOINT_EXERCISE}/${id}`);
+    const response = await apiClient.get<ExerciseDto>(`${ENDPOINT_EXERCISE}/${id}`,{withCredentials: false});
     return response.data;
 };
 
 export const deleteExercise = async(id: string): Promise<void> => {
-    await apiClient.delete(`${ENDPOINT_EXERCISE}/${id}`);
+    await apiClient.delete(`${ENDPOINT_EXERCISE}/${id}`,{withCredentials: false});
 };
 
 export const postExercise = async (exercise: ExerciseDto): Promise<void> => {
-    await apiClient.post(ENDPOINT_EXERCISE, exercise);
+    await apiClient.post(ENDPOINT_EXERCISE, exercise, {withCredentials: false});
 };
 
 export const patchExercise = async (exercise: ExerciseDto): Promise<void> => {
-    await apiClient.patch(ENDPOINT_EXERCISE, exercise);
+    await apiClient.patch(ENDPOINT_EXERCISE, exercise, {withCredentials: false});
 };

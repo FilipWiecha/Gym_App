@@ -42,6 +42,11 @@ public class UserService {
         return this.userRepository.findByUsername(userName).orElseThrow(()-> new IllegalArgumentException("User not found"));
     }
 
+    @Transactional
+    public void saveUser(User user){
+        this.userRepository.save(user);
+    }
+
     // TO DO: poprawić: dodać zmianę username i validacje czy to są już dane uzytkownika
     @Transactional
     public ValidationResult updateUserDetails(String currentUsername, UserUpdateDto userDto) {

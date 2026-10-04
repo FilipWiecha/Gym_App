@@ -16,15 +16,15 @@ export const getUserInfo = async ():Promise<UserDto> =>{
 export const patchUpdateUser = async (data: UserUpdateDto) => {
     const USER_UPDATE_ENDPOINT = import.meta.env.VITE_ENDPOINT_USER_UPDATE;
 
-    const response = await apiClient.patch(`${USER_UPDATE_ENDPOINT}`, data);
+    const response = await apiClient.patch(`${USER_UPDATE_ENDPOINT}`, data, {withCredentials: false});
     return response.data;
 };
 
 export const getActiveSessions = async (): Promise<UserSessionDto[]> => {
-    const response = await apiClient.get<UserSessionDto[]>(SESSIONS_ENDPOINT);
+    const response = await apiClient.get<UserSessionDto[]>(SESSIONS_ENDPOINT, {withCredentials: false});
     return response.data;
 };
 
 export const revokeSession = async (sessionId: string): Promise<void> => {
-    await apiClient.delete(`${SESSIONS_ENDPOINT}/${sessionId}`);
+    await apiClient.delete(`${SESSIONS_ENDPOINT}/${sessionId}`, {withCredentials: false});
 };

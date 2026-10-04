@@ -95,7 +95,16 @@ export function PlanExerciseManager({ planId, exercises, onPlanUpdated, isLoadin
                                 ) : (
                                     <button 
                                         type="button" 
-                                        onClick={() => navigate(`/exercise/${entry.exercise_id}`)}
+                                        onClick={() => 
+                                            navigate(
+                                                `/exercise/${entry.exercise_id}`,
+                                                {
+                                                    state:{
+                                                        search: `/trainingplan/${planId}`
+                                                    }
+                                                }
+                                            )
+                                        }
                                         disabled={isWorking}
                                         className="btn-secondary"
                                         style={{ padding: '8px' }}

@@ -61,6 +61,12 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private String roles;
 
+    @Column(name = "totp_secret", length = 64)
+    private String totpSecret;
+
+    @Column(name = "is_totp_enabled", nullable = false)
+    private boolean isTotpEnabled = false;
+
     // Relacje
     @OneToMany(mappedBy = "user")
     private List<Workout> workouts;

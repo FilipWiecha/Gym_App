@@ -5,4 +5,5 @@ export default interface UserDto{
     lastName:string;
     birthDate:string;
     role:string;
+    totpEnabled:boolean;
 };

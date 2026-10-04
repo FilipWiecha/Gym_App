@@ -14,12 +14,12 @@ export const getWorkouts = async (pageNumber: number = 0): Promise<SliceResponse
 };
 
 export const getWorkoutById = async (id: string): Promise<WorkoutDto> => {
-    const response = await apiClient.get<WorkoutDto>(`${WORKOUT_BASE}/${id}`);
+    const response = await apiClient.get<WorkoutDto>(`${WORKOUT_BASE}/${id}`, {withCredentials: false});
     return response.data;
 };
 
 export const deleteWorkout = async (id: string): Promise<void> => {
-    await apiClient.delete(`${WORKOUT_BASE}/${id}`);
+    await apiClient.delete(`${WORKOUT_BASE}/${id}`,{withCredentials: false});
 };
 
 export const searchWorkouts = async (query: string, pageNumber: number = 0): Promise<SliceResponse<WorkoutDto>> => {
@@ -29,27 +29,28 @@ export const searchWorkouts = async (query: string, pageNumber: number = 0): Pro
         params: { 
             query: query,
             page: pageNumber 
-        }
+        },
+        withCredentials: false
     });
     return response.data;
 };
 
 export const createWorkout = async (workout: WorkoutDto): Promise<void> => {
-    await apiClient.post(WORKOUT_BASE, workout);
+    await apiClient.post(WORKOUT_BASE, workout, {withCredentials: false});
 };
 
 export const updateWorkout = async (workout: WorkoutDto): Promise<void> => {
-    await apiClient.patch(WORKOUT_BASE, workout);
+    await apiClient.patch(WORKOUT_BASE, workout, {withCredentials: false});
 };
 //${WORKOUT_EXERCISE_ENDPOINT}
 export const addExerciseToWorkout = async (workoutId: string, entry: WorkoutExerciseEntryDto): Promise<void> => {
-    await apiClient.post(`${WORKOUT_BASE}/${workoutId}${WORKOUT_EXERCISE_ENDPOINT}`, entry);
+    await apiClient.post(`${WORKOUT_BASE}/${workoutId}${WORKOUT_EXERCISE_ENDPOINT}`, entry, {withCredentials: false});
 };
 
 export const updateWorkoutExercise = async (workoutId: string, entryId: string, entry: WorkoutExerciseEntryDto): Promise<void> => {
-    await apiClient.patch(`${WORKOUT_BASE}/${workoutId}${WORKOUT_EXERCISE_ENDPOINT}/${entryId}`, entry);
+    await apiClient.patch(`${WORKOUT_BASE}/${workoutId}${WORKOUT_EXERCISE_ENDPOINT}/${entryId}`, entry, {withCredentials: false});
 };
 
 export const removeExerciseFromWorkout = async (workoutId: string, entryId: string): Promise<void> => {
-    await apiClient.delete(`${WORKOUT_BASE}/${workoutId}${WORKOUT_EXERCISE_ENDPOINT}/${entryId}`);
+    await apiClient.delete(`${WORKOUT_BASE}/${workoutId}${WORKOUT_EXERCISE_ENDPOINT}/${entryId}`, {withCredentials: false});
 };

@@ -18,7 +18,12 @@ export function ExerciseDetailsPage() {
     const navigate = useNavigate();
     const { fieldErrors, handleApiError, clearErrors } = useApiValidation();
     
-    const backUrl = location.state?.search ? `/exercise${location.state.search}` : "/exercise";
+    const searchParam = location.state?.search || "";
+    const isQueryString = searchParam.startsWith("?");
+
+    const backUrl = isQueryString 
+        ? `/exercise${searchParam}` 
+        : (searchParam || "/exercise");
     
     const [exercise, setExercise] = useState<ExerciseDto | undefined>(location.state?.exercise as ExerciseDto | undefined);
     const [isLoading, setIsLoading] = useState(exercise === undefined);

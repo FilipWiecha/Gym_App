@@ -37,6 +37,8 @@ public class UserDto {
     @Past(message = "Birth date must be in the past")
     private LocalDate birthDate;
 
+    private boolean isTotpEnabled;
+
     private String role;
 
 
@@ -47,6 +49,7 @@ public class UserDto {
         this.birthDate = user.getBirthDate();
         this.email = user.getEmail();
         this.role = user.getRoles();
+        this.isTotpEnabled = user.isTotpEnabled();
     }
 
 }

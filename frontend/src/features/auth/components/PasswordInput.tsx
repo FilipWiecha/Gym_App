@@ -9,12 +9,6 @@ type PasswordInputTypes = {
     onChange?: ChangeEventHandler<HTMLInputElement>;
 };
 
-type ShowPasswordStrengthTypes = {
-        isLengthValid:boolean;
-        hasNumber:boolean;
-        hasSpecial:boolean;
-};
-
 export const PasswordInput = ({name, value, onChange}:PasswordInputTypes) =>{
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -56,9 +50,13 @@ export const PasswordInput = ({name, value, onChange}:PasswordInputTypes) =>{
 };
 
 
-export const ShowPasswordStrength = ({isLengthValid, hasNumber, hasSpecial}:ShowPasswordStrengthTypes) =>{
+export const usePasswordStrength = (password: string) => {
+    const isLengthValid = password.length >= 8;
+    const hasNumber = /\d/.test(password);
+    const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const isPasswordStrong = isLengthValid && hasNumber && hasSpecial;
 
-    const barWidth = ((isLengthValid ? 1 : 0) + (hasNumber ? 1 : 0) + (hasSpecial ? 1 : 0))*100/3;
+    const barWidth = ((isLengthValid ? 1 : 0) + (hasNumber ? 1 : 0) + (hasSpecial ? 1 : 0)) * 100 / 3;
 
     const getColor = () => {
         if (barWidth === 0) return "transparent";
@@ -67,7 +65,20 @@ export const ShowPasswordStrength = ({isLengthValid, hasNumber, hasSpecial}:Show
         return "#34c759";
     };
 
-    return(
+    return {
+        isLengthValid,
+        hasNumber,
+        hasSpecial,
+        isPasswordStrong,
+        barWidth,
+        getColor
+    };
+};
+
+export const PasswordStrengthIndicator = ({ password }: { password: string }) => {
+    const { isLengthValid, hasNumber, hasSpecial, barWidth, getColor } = usePasswordStrength(password);
+
+    return (
         <div className={styles.divMain}>
             <div className={styles.barBorder}>
                 <div 
@@ -79,7 +90,6 @@ export const ShowPasswordStrength = ({isLengthValid, hasNumber, hasSpecial}:Show
                 />
             </div>
 
-
             <div className={`${styles.textDiv} ${barWidth >= 99 ? styles.hideBar : ""}`}>
                 <p className={isLengthValid ? styles.textGreen : styles.textBlack}>8 znaków</p>
                 <p className={hasNumber ? styles.textGreen : styles.textBlack}>1 cyfra</p>
@@ -87,4 +97,4 @@ export const ShowPasswordStrength = ({isLengthValid, hasNumber, hasSpecial}:Show
             </div>  
         </div>
     );
-}
+};

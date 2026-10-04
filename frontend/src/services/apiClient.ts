@@ -13,7 +13,7 @@ export const getAccessToken = () => accessToken;
 
 export const apiClient = axios.create({
     baseURL: import.meta.env.VITE_URL_BASE_BACKEND,
-    withCredentials: true, 
+    withCredentials: false, 
     headers: {
         'Content-Type': 'application/json',
     },

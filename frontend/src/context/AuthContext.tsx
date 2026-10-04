@@ -22,7 +22,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<UserDto | null>(null);
     const [isLoading, setIsLoading] = useState(true);
 
-    const login = (token: string, userData?: UserDto) => {
+    const login = async (token: string, userData?: UserDto) => {
+        const userDetails = await getUserInfo();
+        setUser(userDetails);
         setAccessToken(token);
         setIsAuthenticated(true);
         setHasSession(true);
