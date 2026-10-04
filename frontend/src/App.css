@@ -269,6 +269,7 @@ button, input, select, textarea {
    ========================================= */
 .form-wrapper {
     max-width: 600px;
+    padding-bottom: 30px;
     width: 100%;
     margin: 0 auto auto auto;
 }

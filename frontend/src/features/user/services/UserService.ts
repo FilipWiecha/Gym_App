@@ -1,9 +1,10 @@
 import { apiClient } from "../../../services/apiClient";
-
-
 import type UserDto from "../types/UserDto";
+import type { UserSessionDto } from "../types/UserSessionDto";
 import type { UserUpdateDto } from "../types/UserUpdateDto";
 
+
+const SESSIONS_ENDPOINT = import.meta.env.VITE_ENDPOINT_USER_SESSIONS;
 
 export const getUserInfo = async ():Promise<UserDto> =>{
     const USER_DETAILS_URL = import.meta.env.VITE_ENDPOINT_USER_ME;
@@ -17,4 +18,13 @@ export const patchUpdateUser = async (data: UserUpdateDto) => {
 
     const response = await apiClient.patch(`${USER_UPDATE_ENDPOINT}`, data);
     return response.data;
+};
+
+export const getActiveSessions = async (): Promise<UserSessionDto[]> => {
+    const response = await apiClient.get<UserSessionDto[]>(SESSIONS_ENDPOINT);
+    return response.data;
+};
+
+export const revokeSession = async (sessionId: string): Promise<void> => {
+    await apiClient.delete(`${SESSIONS_ENDPOINT}/${sessionId}`);
 };

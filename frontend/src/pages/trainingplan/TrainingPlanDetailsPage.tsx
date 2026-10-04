@@ -139,7 +139,9 @@ export function TrainingPlanDetailsPage() {
                     exercises={plan.exercises || []} 
                     onPlanUpdated={refreshExercisesList} 
                     isLoadingList={isRefreshingList}
+                    isEditing = {isEditing}
                 />
+                
             </div>
 
             <ConfirmModal 

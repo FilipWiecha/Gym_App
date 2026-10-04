@@ -7,8 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,7 +19,8 @@ import com.filipwiecha.gym.auth.models.TokenDto;
 import com.filipwiecha.gym.auth.services.AuthService;
 import com.filipwiecha.gym.auth.services.TokenService;
 import com.filipwiecha.gym.user.models.User;
-import com.filipwiecha.gym.user.services.JpaUserDetailsService;
+
+import jakarta.servlet.http.HttpServletRequest;
 
 
 
@@ -32,34 +31,35 @@ public class AuthController {
     private final AuthService authService;
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
-    private final JwtDecoder jwtDecoder;
-    private final JpaUserDetailsService jpaUserDetailsService;
 
     public AuthController(
         AuthService as, 
         AuthenticationManager am, 
-        TokenService ts,
-        JwtDecoder jd,
-        JpaUserDetailsService juds
+        TokenService ts
     ){
         this.authService = as;
         this.authenticationManager = am;
         this.tokenService = ts;
-        this.jwtDecoder = jd;
-        this.jpaUserDetailsService = juds;
     }
 
     @PostMapping("/login")
     public ResponseEntity<TokenDto> loginUser(
-        @RequestBody LoginDto request
+        @RequestBody LoginDto request,
+        HttpServletRequest httpRequest
     ) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         
-        String role = this.jpaUserDetailsService.loadUserByUsername(request.getUsername()).getRoles();
+        User user = (User) authentication.getPrincipal();
+
         String accessToken = tokenService.generateAccessToken(authentication);
         String refreshToken = tokenService.generateRefreshToken(authentication);
+
+        String userAgent = httpRequest.getHeader(HttpHeaders.USER_AGENT);
+        String ipAddress = httpRequest.getRemoteAddr();
+
+        authService.createSession(user, refreshToken, userAgent, ipAddress);
 
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", refreshToken)
             .httpOnly(true)
@@ -73,11 +73,17 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .header(HttpHeaders.SET_COOKIE, refreshTokenCookie.toString())
-                .body(new TokenDto(accessToken,role));
+                .body(new TokenDto(accessToken, user.getRoles()));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<String> logoutUser(){
+    public ResponseEntity<String> logoutUser(
+        @CookieValue(name = "refresh_token", required = false) String refreshToken
+    ){
+        if (refreshToken != null) {
+            authService.revokeSession(refreshToken);
+        }
+
         ResponseCookie deleteCookie = ResponseCookie.from("refresh_token", "")
                 .httpOnly(true)
                 .secure(false)
@@ -104,11 +110,10 @@ public class AuthController {
         @CookieValue(name = "refresh_token", required = true) String refreshToken
     ){
         try {
-            Jwt jwt = jwtDecoder.decode(refreshToken);
-            String userName = jwt.getSubject();
-
-            User user = this.jpaUserDetailsService.loadUserByUsername(userName);
-            Authentication auth = new UsernamePasswordAuthenticationToken(user, null);
+            // Weryfikacja sesji w bazie danych (czy nie wygasła i nie jest zablokowana)
+            User user = authService.validateAndRefreshSession(refreshToken);
+            
+            Authentication auth = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             String newAccessToken = this.tokenService.generateAccessToken(auth);
 
             return ResponseEntity.ok().body(new TokenDto(newAccessToken, user.getRoles()));

@@ -112,68 +112,13 @@ export function ProfilePage() {
                                 <div className="read-only-label">E-mail</div>
                                 <p className="read-only-value">{user.email}</p>
                             </div>
+                            <div className={`read-only-field ${styles.readOnlyLast}`}>
+                                <div className="read-only-label">Data urodzenia</div>
+                                <p className="read-only-value">{user.birthDate}</p>
+                            </div>
                         </section>
 
-                        <section className={styles.panel}>
-                            <h3 className={styles.panelTitle}>Dane osobowe</h3>
-
-                            <form onSubmit={handleSubmit}>
-                                {saved && <div className="success-banner">Zapisano zmiany</div>}
-
-                                <div className="form-row">
-                                    <div className="input-group">
-                                        <label htmlFor="firstName">Imię</label>
-                                        <div className="input-with-icon">
-                                            <User className="icon-left" size={18} />
-                                            <input
-                                                id="firstName"
-                                                type="text"
-                                                value={form.firstName}
-                                                onChange={e => setForm({ ...form, firstName: e.target.value })}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-
-                                    <div className="input-group">
-                                        <label htmlFor="lastName">Nazwisko</label>
-                                        <div className="input-with-icon">
-                                            <User className="icon-left" size={18} />
-                                            <input
-                                                id="lastName"
-                                                type="text"
-                                                value={form.lastName}
-                                                onChange={e => setForm({ ...form, lastName: e.target.value })}
-                                                required
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="input-group">
-                                    <label htmlFor="birthDate">Data urodzenia</label>
-                                    <div className="input-with-icon">
-                                        <Calendar className="icon-left" size={18} />
-                                        <div className="divInput">
-                                            <AppDatePicker
-                                                name="birthDate"
-                                                value={form.birthDate}
-                                                onChange={birthDate => setForm({ ...form, birthDate })}
-                                                placeholder="Wybierz datę"
-                                                isRequired
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="bottom-actions">
-                                    <button type="submit" className="btn-primary" disabled={!isDirty || isSaving}>
-                                        {isSaving ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
-                                        {isSaving ? "Przetwarzanie..." : "Zapisz zmiany"}
-                                    </button>
-                                </div>
-                            </form>
-                        </section>
+                        
                     </>
                 )}
             </div>

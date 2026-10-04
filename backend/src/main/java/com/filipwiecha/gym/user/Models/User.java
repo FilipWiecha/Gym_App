@@ -11,6 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.filipwiecha.gym.auth.models.RegisterDto;
+import com.filipwiecha.gym.auth.models.UserSession;
 import com.filipwiecha.gym.exercises.models.Exercise;
 import com.filipwiecha.gym.trainingPlan.models.TrainingPlan;
 import com.filipwiecha.gym.workout.models.Workout;
@@ -68,7 +69,10 @@ public class User implements UserDetails {
     private List<Exercise> exercises;
 
     @OneToMany(mappedBy = "user")
-    private List<TrainingPlan> trainingPlans; 
+    private List<TrainingPlan> trainingPlans;
+
+    @OneToMany(mappedBy = "user")
+    private List<UserSession> userSessions;
 
 
     // Flagi UserDetails z typami prymitywnymi i wartościami początkowymi

@@ -1,37 +1,34 @@
 import { useState } from 'react';
 
-import styles from './UserSettings.module.css';
-
+import { Check } from 'lucide-react';
 import { useAuth } from '../../../context/AuthContext';
-
 import type { UserUpdateDto } from '../../../features/user/types/UserUpdateDto';
-import { getUserInfo, patchUpdateUser } from '../../../features/user/services/UserService';
-
 import { useApiValidation } from '../../../hooks/useApiValidation';
+import { getUserInfo, patchUpdateUser } from '../../../features/user/services/UserService';
+import { PageLayout } from '../../../components/layout/PageLayout';
+import { ProfileDetailsCard } from '../../../features/user/components/ProfileDetailsCard';
+import { SecuritySettingsCard } from '../../../features/user/components/SecuritySettingsCard';
+import { ActiveSessionsManager } from '../../../features/user/components/ActiveSessionsManager';
 
-import { 
-    Shield, 
-    Check, 
-    Key, 
-    CheckCircle2 
-} from 'lucide-react';
 
-// Dokończyć ale pierw backend
+;
+
 export function UserSettingsPage() {
-    const {setUser} = useAuth();
+    const { user, setUser } = useAuth();
 
     const [formData, setFormData] = useState<UserUpdateDto>({
-        firstName: '',
-        lastName: '',
-        email: '',
+        firstName: user?.firstName || '',
+        lastName: user?.lastName || '',
+        email: user?.email || '',
         currentPassword: '',
         newPassword: '',
     });
     
     const [status, setStatus] = useState<{ type: 'success' | 'error' | null; message: string }>({ type: null, message: '' });
+    const [isSaving, setIsSaving] = useState(false);
     const { fieldErrors, handleApiError, clearErrors } = useApiValidation();
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -42,6 +39,7 @@ export function UserSettingsPage() {
         e.preventDefault();
         setStatus({ type: null, message: '' });
         clearErrors();
+        setIsSaving(true);
 
         const payload: Partial<UserUpdateDto> = { ...formData };
         (Object.keys(payload) as (keyof UserUpdateDto)[]).forEach(key => {
@@ -56,144 +54,74 @@ export function UserSettingsPage() {
             setUser(userData);
 
             setFormData(prev => ({ ...prev, currentPassword: '', newPassword: '' }));
-            setStatus({ type: 'success', message: 'All changes saved' });
+            setStatus({ type: 'success', message: 'Wszystkie zmiany zostały zapisane' });
         } catch (error: any) {
             await handleApiError(error);
-            setStatus({ type: 'error', message: fieldErrors?.global || 'Data not updated' });
+            setStatus({ type: 'error', message: fieldErrors?.global || 'Nie udało się zaktualizować danych' });
+        } finally {
+            setIsSaving(false);
         }
     };
 
     return (
-        <div className={styles.appLayout}>
-
-            
-            <main className={styles.mainContent}>
-                <form onSubmit={handleSubmit}>
-                    
-                    <header className={styles.topHeader}>
-                        <div>
-                            <h1>Profile settings</h1>
-                            <p>Manage your account preferences</p>
-                        </div>
-                        <div className={styles.headerActions}>
-                            {status.type === 'success' && (
-                                <div className={styles.statusBadge}>
-                                    <Check size={14} /> {status.message}
-                                </div>
-                            )}
-                            <button type="submit" className={styles.saveBtn}>
-                                Save changes
-                            </button>
-                        </div>
-                    </header>
-
-                    {status.type === 'error' && (
-                        <div className={styles.errorBanner}>
-                            <p>{status.message}</p>
-                        </div>
-                    )}
-
+        <PageLayout>
+            <div className="form-wrapper" style={{ maxWidth: '740px' }}>
                 
-                        <div className={styles.settingsContent}>
-                            
-                            <div className={styles.card}>
-                                <h3>Personal information</h3>
-                                <p className={styles.cardSub}>Update profile details</p>
-
-                                <div className={styles.formGrid}>
-                                    <div className={styles.inputGroup}>
-                                        <label htmlFor="firstName">First name</label>
-                                        <input 
-                                            id="firstName" 
-                                            name="firstName" 
-                                            type="text" 
-                                            value={formData?.firstName || ''} 
-                                            onChange={handleChange} 
-                                            className={styles.input} 
-                                        />
-                                        {fieldErrors.firstName && <span className={styles.errorText}>{fieldErrors.firstName}</span>}
-                                    </div>
-                                    
-                                    <div className={styles.inputGroup}>
-                                        <label htmlFor="lastName">Last name</label>
-                                        <input 
-                                            id="lastName" 
-                                            name="lastName" 
-                                            type="text" 
-                                            value={formData?.lastName || ''} 
-                                            onChange={handleChange} 
-                                            className={styles.input} 
-                                        />
-                                        {fieldErrors.lastName && <span className={styles.errorText}>{fieldErrors.lastName}</span>}
-                                    </div>
-
-                                    <div className={styles.inputGroup}>
-                                        <label htmlFor="email">Email address</label>
-                                        <div className={styles.inputWithIcon}>
-                                            <input 
-                                                id="email" 
-                                                name="email" 
-                                                type="email" 
-                                                value={formData?.email || ''} 
-                                                onChange={handleChange} 
-                                                className={styles.input} 
-                                            />
-                                            <CheckCircle2 className={styles.iconSuccess} size={18} />
-                                        </div>
-                                        {fieldErrors.email && <span className={styles.errorText}>{fieldErrors.email}</span>}
-                                    </div>
-
-                                </div>
-
-
-                            </div>
-                            
-                            
-                            <div className={styles.card}>
-                                <h3>Security</h3>
-                                <p className={styles.cardSub}>Keep your account protected.</p>
-
-                                <div className={styles.securityActionRow}>
-                                    <div className={styles.securityInfo}>
-                                        <Key size={18} />
-                                        <div>
-                                            <span className={styles.toggleTitle}>Password</span>
-                                            <span className={styles.toggleDesc}>Last changed 38 days ago</span>
-                                        </div>
-                                    </div>
-                                    <button type="button" className={styles.secondaryBtn}>Change</button>
-                                </div>
-
-                                <div className={styles.securityActionRow}>
-                                    <div className={styles.securityInfo}>
-                                        <Shield size={18} />
-                                        <div>
-                                            <span className={styles.toggleTitle}>Two-factor authentication</span>
-                                            <span className={styles.toggleDesc}>Add an authenticator app for stronger security.</span>
-                                        </div>
-                                    </div>
-                                    <button type="button" className={styles.secondaryBtn}>Enable</button>
-                                </div>
-
-                                <div className={styles.securityReviewRow}>
-                                    <span className={styles.toggleDesc}>3 active sessions</span>
-                                    <a href="#review" className={styles.reviewLink}>Review</a>
-                                </div>
-                            </div>
-                            
-
-                            
-                            <div className={styles.cardDeactivate}>
-                                <div>
-                                    <h3>Deactivate account</h3>
-                                    <p className={styles.cardSub}>Delete your account with all data</p>
-                                </div>
-                                <button type="button" className={styles.deactivateBtn}>Delete</button>
-                            </div>
-                        </div>
+                {/* Własny Top Nav ze względu na przycisk Submit */}
+                <div className="top-nav">
+                    <div className="form-header" style={{ margin: 0 }}>
+                        <h2 style={{ fontSize: '24px' }}>Ustawienia profilu</h2>
+                        <p style={{ margin: '4px 0 0 0' }}>Zarządzaj swoim kontem i bezpieczeństwem</p>
+                    </div>
                     
-                </form>
-            </main>
-        </div>
+                    <div className="page-header-actions">
+                        {status.type === 'success' && (
+                            <span style={{ color: 'var(--color-success)', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '6px', fontWeight: 500, marginRight: '12px' }}>
+                                <Check size={16} /> {status.message}
+                            </span>
+                        )}
+                        <button type="submit" form="settings-form" className="btn-primary" disabled={isSaving}>
+                            {isSaving ? "Przetwarzanie..." : "Zapisz zmiany"}
+                        </button>
+                    </div>
+                </div>
+
+                {status.type === 'error' && (
+                    <div className="error-message">
+                        {status.message}
+                    </div>
+                )}
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                    {/* Główny formularz edycji obejmujący dwie karty */}
+                    <form id="settings-form" onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                        <ProfileDetailsCard 
+                            formData={formData} 
+                            onChange={handleChange} 
+                            fieldErrors={fieldErrors} 
+                        />
+                        <SecuritySettingsCard 
+                            formData={formData} 
+                            onChange={handleChange} 
+                            fieldErrors={fieldErrors} 
+                        />
+                    </form>
+
+                    {/* Zarządzanie sesjami API niezależne od głównego formularza */}
+                    <ActiveSessionsManager />
+                    
+                    {/* Strefa usunięcia konta */}
+                    <div className="card-item" style={{ border: '1px solid rgba(255, 59, 48, 0.2)', backgroundColor: 'rgba(255, 59, 48, 0.02)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+                            <div>
+                                <h3 style={{ margin: '0 0 4px', fontSize: '17px', fontWeight: 600, color: 'var(--color-text-main)' }}>Usuń konto</h3>
+                                <p style={{ margin: 0, fontSize: '14px', color: 'var(--color-text-light-muted)' }}>Trwale usuń swoje konto oraz wszystkie zapisane dane.</p>
+                            </div>
+                            <button type="button" className="btn-danger">Usuń konto</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </PageLayout>
     );
 }

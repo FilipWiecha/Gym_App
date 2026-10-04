@@ -5,10 +5,7 @@ import type TokenDto from "../types/TokenDto";
 import { apiClient, setAccessToken } from "../../../services/apiClient";
 
 
-
-
 const BASE_URL = import.meta.env.VITE_URL_BASE_BACKEND;
-
 
 export const postRegisterUser = async (
     registerData: RegisterDto
@@ -23,7 +20,6 @@ export const postRegisterUser = async (
 
     return response.data;
 };
-
 
 export const postLoginUser = async (
     loginData: LoginDto
@@ -42,10 +38,9 @@ export const postLoginUser = async (
     return response.data;
 };
 
-
 export const postLogOutUser = async () => {
     const LOGOUT_ENDPOINT = import.meta.env.VITE_ENDPOINT_AUTH_LOGOUT;
-    await apiClient.post<String>(LOGOUT_ENDPOINT);
+    await apiClient.post<String>(LOGOUT_ENDPOINT, null, {withCredentials:true});
 };
 
 export const postRefreshToken = async ():Promise<TokenDto> => {
@@ -58,4 +53,5 @@ export const postRefreshToken = async ():Promise<TokenDto> => {
     
     return response.data || null;
 };
+
 
