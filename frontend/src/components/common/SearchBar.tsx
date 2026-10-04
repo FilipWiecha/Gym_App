@@ -25,23 +25,27 @@ export function SearchBar({ initialValue, onSearch, placeholder = "Szukaj..." }:
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ marginBottom: '5px', display: 'flex', gap: '12px' }}>
-            <div className="input-with-icon" style={{ flex: 1 }}>
+        <form onSubmit={handleSubmit} className="search-form">
+            <div className="input-with-icon">
                 <Search className="icon-left" size={18} />
                 <input
                     type="text"
                     value={searchInput}
                     onChange={(e) => setSearchInput(e.target.value)}
                     placeholder={placeholder}
-                    style={{ width: '100%', padding: '12px 40px', border: '1px solid var(--color-border)', borderRadius: '6px' }}
                 />
                 {searchInput && (
-                    <button type="button" onClick={clearSearch} style={{ position: 'absolute', right: '12px', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--color-text-muted)' }}>
-                        <X size={18} />
+                    <button
+                        type="button"
+                        onClick={clearSearch}
+                        className="icon-btn search-clear"
+                        aria-label="Wyczyść wyszukiwanie"
+                    >
+                        <X size={16} />
                     </button>
                 )}
             </div>
-            <button type="submit" className="google-btn" style={{ width: 'auto', padding: '0 24px' }}>
+            <button type="submit" className="btn-secondary">
                 Szukaj
             </button>
         </form>

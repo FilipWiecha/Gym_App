@@ -37,10 +37,10 @@ export function WorkoutListPage() {
     return (
         <PageLayout>
             <div className="top-nav">
-                <div className="form-header" style={{ margin: 0 }}>
-                    <h2 style={{ margin: 0 }}>Moje Treningi</h2>
+                <div className="form-header">
+                    <h2>Moje treningi</h2>
                 </div>
-                <AddButton to="/workout/new" text="" />
+                <AddButton to="/workout/new" />
             </div>
 
             <SearchBar 
@@ -49,11 +49,11 @@ export function WorkoutListPage() {
                 placeholder="Szukaj treningu po tytule..." 
             />
 
-            {isLoading && <p>Ładowanie...</p>}
+            {isLoading && <p className="loading-state">Ładowanie...</p>}
             {error && <div className="error-message">{error}</div>}
 
             {!isLoading && workouts.length === 0 && !error && (
-                <p>Brak treningów. Rozpocznij swój pierwszy trening.</p>
+                <p className="empty-state">Brak treningów. Rozpocznij swój pierwszy trening.</p>
             )}
 
             <div className="card-grid">

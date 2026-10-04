@@ -59,12 +59,12 @@ export const PasswordInput = ({name, value, onChange}:PasswordInputTypes) =>{
 export const ShowPasswordStrength = ({isLengthValid, hasNumber, hasSpecial}:ShowPasswordStrengthTypes) =>{
 
     const barWidth = ((isLengthValid ? 1 : 0) + (hasNumber ? 1 : 0) + (hasSpecial ? 1 : 0))*100/3;
-    console.log(barWidth);
+
     const getColor = () => {
         if (barWidth === 0) return "transparent";
-        if (barWidth < 34) return "#ff4d4d";
-        if (barWidth < 67) return "#ffd700";
-        return "#32cd32";
+        if (barWidth < 34) return "#ff3b30";
+        if (barWidth < 67) return "#ff9500";
+        return "#34c759";
     };
 
     return(
@@ -88,4 +88,3 @@ export const ShowPasswordStrength = ({isLengthValid, hasNumber, hasSpecial}:Show
         </div>
     );
 }
-

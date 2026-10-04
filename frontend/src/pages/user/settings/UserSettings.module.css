@@ -1,395 +1,136 @@
-.appLayout {
-    display: flex;
-    min-height: 100vh;
-    background-color: #f8fafc;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    color: #1e293b;
-}
+/* Zmienne (--glass-*, --radius-*, --color-*) pochodzą z App.css.
+   Formularze, przyciski i komunikaty używają globalnych klas z App.css. */
 
-.mainContent {
-    flex: 1;
-    padding: 32px 40px;
-    overflow-y: auto;
-    min-width: 0;
-}
-
-.topHeader {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 32px;
-}
-
-.topHeader h1 {
-    font-size: 24px;
-    font-weight: 700;
-    margin: 0 0 4px 0;
-    color: #0f172a;
-}
-
-.topHeader p {
-    font-size: 14px;
-    color: #64748b;
-    margin: 0;
-}
-
-.headerActions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.saveBtn {
-    background: #4f46e5;
-    color: white;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.statusBadge {
-    background: #ecfdf5;
-    color: #059669;
-    font-size: 13px;
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    border: 1px solid #d1fae5;
-}
-
-.iconBtn {
-    background: white;
-    border: 1px solid #e2e8f0;
-    width: 36px;
-    height: 36px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #64748b;
-    cursor: pointer;
-}
-
-.settingsLayout {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    gap: 32px;
-    align-items: flex-start;
-}
-
-.settingsNav {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.settingsNavItem {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 8px 12px;
-    color: #64748b;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 500;
-    border-radius: 6px;
-}
-
-.settingsNavItem.active {
-    background: #eff6ff;
-    color: #3b82f6;
-}
-
-.helpBox {
-    margin-top: 32px;
-    padding: 16px;
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-}
-
-.helpBox h4 {
-    font-size: 13px;
-    font-weight: 600;
-    margin: 0 0 4px 0;
-    color: #0f172a;
-}
-
-.helpBox p {
-    font-size: 12px;
-    color: #64748b;
-    margin: 0;
-}
-
-.settingsContent {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    gap: 24px;
-    min-width: 0;
-}
-
-.card {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 24px;
-}
-
-.card h3 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #0f172a;
-    margin: 0 0 4px 0;
-}
-
-.cardSub {
-    font-size: 13px;
-    color: #64748b;
-    margin: 0 0 20px 0;
-}
-
-.avatarUploadRow {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 6px;
-}
-
-.largeAvatar {
-    width: 56px;
-    height: 56px;
-    background: #e0e7ff;
-    color: #4f46e5;
-    font-size: 18px;
-    font-weight: 600;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.avatarButtons {
-    display: flex;
-    gap: 12px;
-}
-
-.secondaryBtn {
-    background: white;
-    border: 1px solid #e2e8f0;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    font-weight: 500;
-    color: #334155;
-    cursor: pointer;
-}
-
-.textBtn {
-    background: none;
-    border: none;
-    color: #64748b;
-    font-size: 13px;
-    cursor: pointer;
-}
-
-.uploadHint {
-    font-size: 11px;
-    color: #94a3b8;
-    display: block;
-    margin-bottom: 20px;
-}
-
-.formGrid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-}
-
-.inputGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-bottom: 16px;
-}
-
-.inputGroupFull {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.inputGroup label, .inputGroupFull label {
-    font-size: 13px;
-    font-weight: 500;
-    color: #334155;
-}
-
-.input, .textarea {
+.content {
     width: 100%;
-    padding: 10px 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 6px;
-    font-size: 14px;
-    outline: none;
-    box-sizing: border-box;
+    max-width: 640px;
+    margin: 0 auto;
+    padding-bottom: 24px;
 }
 
-.textarea {
-    resize: vertical;
-    font-family: inherit;
-}
-
-.inputWithIcon {
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.iconSuccess {
-    position: absolute;
-    right: 12px;
-    color: #10b981;
-}
-
-.gridTwoColumns {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-}
-
-.toggleList {
+.form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
 }
 
-.toggleItem, .securityActionRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
+.form > :global(.top-nav) {
+    margin-bottom: 0;
 }
 
-.securityActionRow {
-    padding: 12px 0;
-    border-bottom: 1px solid #f1f5f9;
-}
-
-.securityInfo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #64748b;
-}
-
-.toggleTitle {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #0f172a;
-}
-
-.toggleDesc {
-    font-size: 12px;
-    color: #64748b;
-}
-
-.toggleCheckbox {
-    width: 36px;
-    height: 20px;
-    accent-color: #4f46e5;
-    cursor: pointer;
-}
-
-.securityReviewRow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 16px;
-    padding-top: 12px;
-    border-top: 1px solid #f1f5f9;
-}
-
-.reviewLink {
-    font-size: 13px;
-    color: #4f46e5;
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.cardDeactivate {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
+.panel {
     padding: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    border-radius: var(--radius-l);
+    background: rgba(255, 255, 255, 0.66);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--glass-shadow);
 }
 
-.cardDeactivate h3 {
-    font-size: 16px;
+.panelTitle {
+    margin: 0 0 4px;
+    font-size: 17px;
     font-weight: 600;
-    color: #0f172a;
-    margin: 0 0 4px 0;
+    letter-spacing: -0.01em;
 }
 
-.deactivateBtn {
-    background: white;
-    border: 1px solid #e2e8f0;
-    color: #ef4444;
-    padding: 8px 16px;
-    border-radius: 6px;
+.panelSub {
+    margin: 0 0 20px;
     font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-}
-
-.deactivateBtn:hover {
-    background: #ef4444;
-    border: 1px solid #db0e0e;
-    color: white;
-    transition: 0.2s ease-in-out;
+    color: var(--color-text-light-muted);
 }
 
 .errorText {
+    display: block;
+    margin-top: 6px;
     font-size: 12px;
-    color: #ef4444;
+    color: var(--color-error-text);
 }
 
-.errorBanner {
-    background: #fef2f2;
-    color: #ef4444;
-    padding: 12px;
-    border-radius: 6px;
+/* ---------- Wiersze akcji (bezpieczeństwo) ---------- */
+.rowList {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 0;
+    border-top: 1px solid var(--color-border);
+}
+
+.row:first-child {
+    padding-top: 0;
+    border-top: none;
+}
+
+.row:last-child {
+    padding-bottom: 0;
+}
+
+.rowInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.rowIcon {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: rgba(60, 60, 67, 0.07);
+    color: var(--color-text-light-muted);
+}
+
+.rowTitle {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+}
+
+.rowDesc {
+    margin: 2px 0 0;
     font-size: 13px;
-    margin-bottom: 24px;
+    color: var(--color-text-light-muted);
 }
 
-/* Wersja mobilna dla ustawień */
-@media (max-width: 900px) {
-    .settingsLayout {
-        grid-template-columns: 1fr;
+.passwordFields {
+    margin-top: 16px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
+}
+
+.passwordFields :global(.input-group):last-child {
+    margin-bottom: 0;
+}
+
+/* ---------- Usuwanie konta ---------- */
+.dangerPanel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.dangerPanel .panelSub {
+    margin-bottom: 0;
+}
+
+@media (max-width: 480px) {
+    .panel {
+        padding: 18px;
     }
-    .settingsNav {
-        display: none; /* Ukrywa boczne menu zakładek na telefonach */
-    }
-    .formGrid, .gridTwoColumns {
-        grid-template-columns: 1fr;
-    }
-    .mainContent {
-        padding: 16px;
-    }
-    .cardDeactivate {
+
+    .dangerPanel {
         flex-direction: column;
         align-items: flex-start;
-        gap: 16px;
     }
 }

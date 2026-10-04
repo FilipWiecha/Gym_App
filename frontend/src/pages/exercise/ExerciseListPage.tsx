@@ -37,10 +37,10 @@ export function ExerciseListPage() {
     return (
         <PageLayout>
             <div className="top-nav">
-                <div className="form-header" style={{ margin: 0 }}>
-                    <h2 style={{ margin: 0 }}>Katalog Ćwiczeń</h2>
+                <div className="form-header">
+                    <h2>Katalog ćwiczeń</h2>
                 </div>
-                <AddButton to="/exercise/new" text="" />
+                <AddButton to="/exercise/new" />
             </div>
 
             <SearchBar 
@@ -49,10 +49,10 @@ export function ExerciseListPage() {
                 placeholder="Szukaj ćwiczenia..." 
             />
 
-            {isLoading && <p>Ładowanie...</p>}
+            {isLoading && <p className="loading-state">Ładowanie...</p>}
             {error && <div className="error-message">{error}</div>}
             {!isLoading && exercises.length === 0 && !error && (
-                <p>Brak ćwiczeń. Dodaj swoje pierwsze ćwiczenie.</p>
+                <p className="empty-state">Brak ćwiczeń. Dodaj swoje pierwsze ćwiczenie.</p>
             )}
 
             <div className="card-grid">

@@ -27,10 +27,14 @@ export const EditButton = ({ onClick }: { onClick: () => void }) => (
     </button>
 );
 
-export const AddButton = ({ to, text }: { to: string, text: string }) => (
+export const AddButton = ({ to, text }: { to: string, text?: string }) => (
     <Link to={to} style={{ textDecoration: 'none' }}>
-        <button type="button" className="btn-primary">
-            <Plus size={18} /> {text}
+        <button
+            type="button"
+            className={text ? "btn-primary" : "btn-primary btn-icon"}
+            aria-label={text || "Dodaj"}
+        >
+            <Plus size={18} />{text ? ` ${text}` : null}
         </button>
     </Link>
 );

@@ -37,33 +37,23 @@ export function TrainingPlanListPage() {
     return (
         <PageLayout>
             <div className="top-nav">
-                <div className="form-header" style={{ margin: 0 }}>
-                    <h2 style={{ margin: 0 }}>Plany Treningowe</h2>
+                <div className="form-header">
+                    <h2>Plany treningowe</h2>
                 </div>
-
-                <AddButton to="/trainingplan/new" text="" />
+                <AddButton to="/trainingplan/new" />
             </div>
 
-            <div className="bottom-nav">
+            <SearchBar
+                initialValue={searchQuery} 
+                onSearch={updateSearch} 
+                placeholder="Szukaj planu po tytule..." 
+            />
 
-                <div className="add-btn-nav">
-                    
-                </div>
-
-                <SearchBar
-                    initialValue={searchQuery} 
-                    onSearch={updateSearch} 
-                    placeholder="Szukaj planu po tytule..." 
-                />
-
-            </div>
-
-
-            {isLoading && <p>Ładowanie...</p>}
+            {isLoading && <p className="loading-state">Ładowanie...</p>}
             {error && <div className="error-message">{error}</div>}
 
             {!isLoading && plans.length === 0 && !error && (
-                <p>Brak planów. Utwórz swój pierwszy plan.</p>
+                <p className="empty-state">Brak planów. Utwórz swój pierwszy plan.</p>
             )}
 
             <div className="card-grid">

@@ -7,8 +7,6 @@ import { ProtectedRoute } from './ProtectedRoute';
 
 import { LoginPage } from '../pages/auth/Login';
 import { RegisterPage } from '../pages/auth/Register';
-import { DashboardPage } from '../pages/main/Dashboard';
-import { UserProfilePage } from '../pages/user/profile/UserProfile';
 import { UserSettingsPage } from '../pages/user/settings/UserSettings';
 import { ExerciseAddPage } from '../pages/exercise/ExerciseAddPage';
 import { ExerciseDetailsPage } from '../pages/exercise/ExerciseDetailsPage';
@@ -19,6 +17,8 @@ import { TrainingPlanDetailsPage } from '../pages/trainingplan/TrainingPlanDetai
 import { WorkoutAddPage } from '../pages/workout/WorkoutAddPage';
 import { WorkoutDetailsPage } from '../pages/workout/WorkoutDetailsPage';
 import { ExerciseListPage } from '../pages/exercise/ExerciseListPage';
+import { DashboardPage } from '../pages/main/DashboardPage';
+import { ProfilePage } from '../pages/user/profile/ProfilePage';
 
 
 
@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
 
                     {
                         path: '/profile',
-                        element: <UserProfilePage />
+                        element: <ProfilePage />
                     },
 
                     {

@@ -52,7 +52,7 @@ public class TrainingPlanService {
 
     @Transactional(readOnly = true)
     public Slice<TrainingPlan> getByUser(String username, int pageNumber){
-        Pageable pageable = PageRequest.of(pageNumber, 5);
+        Pageable pageable = PageRequest.of(pageNumber, 10);
         return this.trainingPlanRepository.findByUserIdAndEnabledTrue(
             this.getUserByUsername(username).getId(),
             pageable
@@ -61,7 +61,7 @@ public class TrainingPlanService {
 
     @Transactional(readOnly = true)
     public Slice<TrainingPlan> findByName(String query, String username, int pageNumber){
-        Pageable pageable = PageRequest.of(pageNumber, 5);
+        Pageable pageable = PageRequest.of(pageNumber, 10);
         return this.trainingPlanRepository
                 .findByUserIdAndTitleContainingIgnoreCase(
                     this.getUserByUsername(username).getId(),

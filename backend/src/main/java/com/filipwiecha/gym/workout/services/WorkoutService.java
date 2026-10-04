@@ -59,7 +59,7 @@ public class WorkoutService {
 
     @Transactional(readOnly = true)
     public Slice<Workout> getByUser(String username, int pageNumber){
-        Pageable pageable = PageRequest.of(pageNumber, 5, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(pageNumber, 10, Sort.by("createdAt").descending());
 
         return this.workoutRepository.findByUserIdAndEnabledTrue(
             this.getUserByUsername(username).getId(),
@@ -69,7 +69,7 @@ public class WorkoutService {
 
     @Transactional(readOnly = true)
     public Slice<Workout> findByName(String exerciseName, String username, int pageNumber){
-        Pageable pageable = PageRequest.of(pageNumber, 5, Sort.by("createdAt").descending());
+        Pageable pageable = PageRequest.of(pageNumber, 10, Sort.by("createdAt").descending());
 
         return this.workoutRepository
                 .findByUserIdAndTitleContainingIgnoreCase(

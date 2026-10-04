@@ -16,7 +16,7 @@ import {
     CheckCircle2 
 } from 'lucide-react';
 
-
+// Dokończyć ale pierw backend
 export function UserSettingsPage() {
     const {setUser} = useAuth();
 
