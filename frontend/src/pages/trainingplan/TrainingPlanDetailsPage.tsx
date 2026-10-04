@@ -90,7 +90,7 @@ export function TrainingPlanDetailsPage() {
 
     return (
         <PageLayout>
-            <div className="form-wrapper" style={{ maxWidth: '600px' }}>
+            <div className="form-wrapper">
                 <div className="top-nav">
                     {isEditing ? (
                         <button type="button" onClick={() => setIsEditing(false)} className="btn-secondary">

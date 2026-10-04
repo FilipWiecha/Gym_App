@@ -44,10 +44,11 @@ export function WorkoutCard({ workout, backUrlSearch, onDelete }: WorkoutCardPro
                 {workout.description || "Brak opisu"}
             </p>
             {workout.startDate && (
-                <p style={{ color: 'var(--color-text-light-muted)', fontSize: '12px', margin: '0 0 20px 0' }}>
+                <p style={{ color: 'var(--color-text-light-muted)', fontSize: '12px', margin: '0 0 0px 0' }}>
                     Data: {new Date(workout.startDate).toLocaleString()}
                 </p>
             )}
+
             
             <div className="card-footer">
                 <Link to={`/workout/${workout.id}`} state={{ workout: workout, search: backUrlSearch }}>

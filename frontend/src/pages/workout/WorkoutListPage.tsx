@@ -40,7 +40,7 @@ export function WorkoutListPage() {
                 <div className="form-header" style={{ margin: 0 }}>
                     <h2 style={{ margin: 0 }}>Moje Treningi</h2>
                 </div>
-                <AddButton to="/workout/new" text="Rozpocznij nowy" />
+                <AddButton to="/workout/new" text="" />
             </div>
 
             <SearchBar 

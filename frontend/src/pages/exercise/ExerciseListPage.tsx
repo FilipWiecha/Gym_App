@@ -40,7 +40,7 @@ export function ExerciseListPage() {
                 <div className="form-header" style={{ margin: 0 }}>
                     <h2 style={{ margin: 0 }}>Katalog Ćwiczeń</h2>
                 </div>
-                <AddButton to="/exercise/new" text="Dodaj ćwiczenie" />
+                <AddButton to="/exercise/new" text="" />
             </div>
 
             <SearchBar 

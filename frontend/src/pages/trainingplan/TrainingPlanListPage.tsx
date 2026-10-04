@@ -40,14 +40,24 @@ export function TrainingPlanListPage() {
                 <div className="form-header" style={{ margin: 0 }}>
                     <h2 style={{ margin: 0 }}>Plany Treningowe</h2>
                 </div>
-                <AddButton to="/trainingplan/new" text="Dodaj nowy" />
+
+                <AddButton to="/trainingplan/new" text="" />
             </div>
 
-            <SearchBar 
-                initialValue={searchQuery} 
-                onSearch={updateSearch} 
-                placeholder="Szukaj planu po tytule..." 
-            />
+            <div className="bottom-nav">
+
+                <div className="add-btn-nav">
+                    
+                </div>
+
+                <SearchBar
+                    initialValue={searchQuery} 
+                    onSearch={updateSearch} 
+                    placeholder="Szukaj planu po tytule..." 
+                />
+
+            </div>
+
 
             {isLoading && <p>Ładowanie...</p>}
             {error && <div className="error-message">{error}</div>}

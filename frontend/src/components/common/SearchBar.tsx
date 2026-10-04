@@ -25,7 +25,7 @@ export function SearchBar({ initialValue, onSearch, placeholder = "Szukaj..." }:
     };
 
     return (
-        <form onSubmit={handleSubmit} style={{ marginBottom: '32px', display: 'flex', gap: '12px' }}>
+        <form onSubmit={handleSubmit} style={{ marginBottom: '5px', display: 'flex', gap: '12px' }}>
             <div className="input-with-icon" style={{ flex: 1 }}>
                 <Search className="icon-left" size={18} />
                 <input
