@@ -45,6 +45,9 @@
     flex-direction: column;
     justify-content: space-between;
     padding: 24px 16px;
+
+    position:static;
+    height: 100dvh;
 }
 
 .sidebarTop {
@@ -119,8 +122,9 @@
 
 .mainContent {
     flex: 1;
-    min-width: 0;
-    overflow-y: auto;
+    max-height: 100dvh;
+    scrollbar-width: none;
+    overflow: scroll;
 }
 
 /* Wersja mobilna i responsywność */

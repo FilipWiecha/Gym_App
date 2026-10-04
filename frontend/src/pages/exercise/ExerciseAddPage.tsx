@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { postExercise } from "../../features/exercise/services/ExerciseService";
 import type { ExerciseDto } from "../../features/exercise/types/ExerciseDto";
 import { useApiValidation } from "../../hooks/useApiValidation";
-import { PageLayout } from "../../components/common/PageLayout";
+import { PageLayout } from "../../components/layout/PageLayout";
 import { ExerciseForm } from "../../features/exercise/components/ExerciseForm";
 import { BackButton, SaveButton } from "../../components/common/Buttons";
 

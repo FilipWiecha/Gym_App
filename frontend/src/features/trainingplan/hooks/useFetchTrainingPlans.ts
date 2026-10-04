@@ -25,7 +25,6 @@ export function useFetchTrainingPlans(searchQuery: string, currentPage: number, 
             } catch {
                 setError("Błąd pobierania danych.");
             } finally {
-                window.scrollTo({top:0, behavior:"smooth"});
                 setIsLoading(false);
             }
         };

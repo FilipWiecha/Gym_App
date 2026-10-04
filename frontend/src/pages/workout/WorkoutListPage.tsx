@@ -7,7 +7,7 @@ import { deleteWorkout } from "../../features/workout/services/WorkoutService";
 import { WorkoutCard } from "../../features/workout/components/WorkoutCard";
 import { AddButton } from "../../components/common/Buttons";
 import { ConfirmModal } from "../../components/common/ConfirmModal";
-import { PageLayout } from "../../components/common/PageLayout";
+import { PageLayout } from "../../components/layout/PageLayout";
 
 export function WorkoutListPage() {
     const { 

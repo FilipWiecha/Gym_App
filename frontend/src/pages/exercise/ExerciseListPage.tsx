@@ -7,7 +7,7 @@ import { deleteExercise } from "../../features/exercise/services/ExerciseService
 import { ExerciseCard } from "../../features/exercise/components/ExerciseCard";
 import { AddButton } from "../../components/common/Buttons";
 import { ConfirmModal } from "../../components/common/ConfirmModal";
-import { PageLayout } from "../../components/common/PageLayout";
+import { PageLayout } from "../../components/layout/PageLayout";
 
 export function ExerciseListPage() {
     const { 

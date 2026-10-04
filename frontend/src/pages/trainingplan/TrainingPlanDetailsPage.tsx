@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { getTrainingPlanById, updateTrainingPlan, deleteTrainingPlan } from "../../features/trainingplan/services/TrainingPlanService";
 import type { TrainingPlanDto } from "../../features/trainingplan/types/TrainingPlanDto";
-import { PageLayout } from "../../components/common/PageLayout";
+import { PageLayout } from "../../components/layout/PageLayout";
 import { TrainingPlanForm } from "../../features/trainingplan/components/TrainingPlanForm";
 import { PlanExerciseManager } from "../../features/trainingplan/components/PlanExerciseManager";
 import { BackButton, SaveButton, DeleteButton, EditButton } from "../../components/common/Buttons";

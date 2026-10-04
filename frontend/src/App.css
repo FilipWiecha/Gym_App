@@ -25,12 +25,17 @@ body {
     background-color: var(--color-default-background);
 }
 
+.text{
+    font-family: var(--font-family);
+    -webkit-font-smoothing: antialiased;
+}
+
 /* =========================================
    2. GŁÓWNY UKŁAD (LAYOUT)
    ========================================= */
 .login-layout {
     display: flex;
-    min-height: 90dvh;
+    min-height: 100dvh;
 }
 
 .login-sidebar {
@@ -47,11 +52,10 @@ body {
     flex: 1;
     background-color: var(--color-default-background);
     font-family: var(--font-family);
-    display:block;
+    display:flex;
     flex-direction: column;
     padding: 40px;
     position: relative;
-    scroll-behavior:smooth;
 }
 
 .top-nav {
@@ -624,4 +628,17 @@ body {
     outline: none;
     padding: 12px 0;
     background: transparent;
+}
+
+.divPassword {
+    display: flex;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.divPassword.show {
+    max-height: 80px;
+    opacity: 1;
 }

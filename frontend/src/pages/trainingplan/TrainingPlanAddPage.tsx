@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import type { TrainingPlanDto } from "../../features/trainingplan/types/TrainingPlanDto";
 import { createTrainingPlan } from "../../features/trainingplan/services/TrainingPlanService";
-import { PageLayout } from "../../components/common/PageLayout";
+import { PageLayout } from "../../components/layout/PageLayout";
 import { TrainingPlanForm } from "../../features/trainingplan/components/TrainingPlanForm";
 import { BackButton, SaveButton } from "../../components/common/Buttons";
 

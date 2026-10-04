@@ -1,6 +1,7 @@
-import { Mail, User, CalendarIcon, Lock, Eye, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { Mail, User, CalendarIcon, Lock } from 'lucide-react';
 import { useRegisterForm } from '../hooks/useRegisterForm';
 import { AppDatePicker } from '../../../components/common/AppDatePicker';
+import { PasswordInput, ShowPasswordStrength } from './PasswordInput';
 
 export const RegisterForm = () => {
     const {
@@ -101,39 +102,22 @@ export const RegisterForm = () => {
                 <label htmlFor="password">Password</label>
                 <div className={`input-with-icon ${isPasswordStrong ? 'valid' : ''}`}>
                     <Lock className="icon-left" size={18} />
-                    <input
-                        id="password"
-                        name="password"
-                        type="password"
+                    <PasswordInput 
+                        name={"password"}
                         value={formData.password}
                         onChange={handleChange}
-                        placeholder="••••••••••"
-                        required
                     />
-                    <div className="icons-right">
-                        <Eye className="icon-action" size={18} />
-                        {isPasswordStrong && <CheckCircle2 className="icon-success" size={18} />}
-                    </div>
                 </div>
-
-                <div className="password-strength">
-                    <span className={`strength-req ${isPasswordStrong ? 'met' : ''}`}>
-                        Minimum 8 characters, a digit, and a special character.
-                    </span>
-                    <div className="strength-bars">
-                        <div className={`bar ${isLengthValid ? 'active' : ''}`}></div>
-                        <div className={`bar ${hasNumber ? 'active' : ''}`}></div>
-                        <div className={`bar ${hasSpecial ? 'active' : ''}`}></div>
-                        <div className={`bar ${isPasswordStrong ? 'active' : ''}`}></div>
-                    </div>
-                    {isPasswordStrong && (
-                        <div className="strength-status">
-                            <ShieldCheck size={14} />
-                            <span>Strong password</span>
-                        </div>
-                    )}
-                </div>
+ 
             </div>
+
+                <div className={`divPassword ${formData.password.length > 0 ? "show" : ""}`}>
+                    <ShowPasswordStrength 
+                        isLengthValid={isLengthValid}
+                        hasNumber={hasNumber}
+                        hasSpecial={hasSpecial}
+                    />
+                </div>
 
             <div className="form-options">
                 <label className="checkbox-label">

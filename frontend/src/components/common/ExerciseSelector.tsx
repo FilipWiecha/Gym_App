@@ -11,6 +11,7 @@ export function ExerciseSelector({ onSelect }: ExerciseSelectorProps) {
     const [query, setQuery] = useState("");
     const [results, setResults] = useState<ExerciseDto[]>([]);
     const [isLoading, setIsLoading] = useState(false);
+    const timeout = 500;
 
     useEffect(() => {
         const fetchResults = async () => {
@@ -27,9 +28,9 @@ export function ExerciseSelector({ onSelect }: ExerciseSelectorProps) {
             }
         };
         
-        const delayDebounce = setTimeout(() => { fetchResults(); }, 300);
+        const delayDebounce = setTimeout(() => { fetchResults(); }, timeout);
         return () => clearTimeout(delayDebounce);
-    }, [query]);
+    }, [query, timeout]);
 
     return (
         <div style={{ marginBottom: '24px' }}>

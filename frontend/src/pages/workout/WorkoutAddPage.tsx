@@ -5,7 +5,7 @@ import type { WorkoutDto } from "../../features/workout/types/WorkoutDto";
 
 import { WorkoutForm } from "../../features/workout/components/WorkoutForm";
 import { BackButton, SaveButton } from "../../components/common/Buttons";
-import { PageLayout } from "../../components/common/PageLayout";
+import { PageLayout } from "../../components/layout/PageLayout";
 
 export function WorkoutAddPage() {
     const navigate = useNavigate();

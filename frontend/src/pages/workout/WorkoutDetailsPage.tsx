@@ -8,7 +8,7 @@ import { WorkoutForm } from "../../features/workout/components/WorkoutForm";
 import { WorkoutExerciseManager } from "../../features/workout/components/WorkoutExerciseManager";
 import { BackButton, SaveButton, DeleteButton, EditButton } from "../../components/common/Buttons";
 import { ConfirmModal } from "../../components/common/ConfirmModal";
-import { PageLayout } from "../../components/common/PageLayout";
+import { PageLayout } from "../../components/layout/PageLayout";
 
 export function WorkoutDetailsPage() {
     const { id } = useParams<{ id: string }>();

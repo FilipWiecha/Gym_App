@@ -24,7 +24,6 @@ export function useFetchWorkouts(searchQuery: string, currentPage: number, setHa
             } catch {
                 setError("Błąd pobierania danych.");
             } finally {
-                window.scrollTo({top:0, behavior:"smooth"});
                 setIsLoading(false);
             }
         };

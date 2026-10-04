@@ -7,7 +7,7 @@ import { deleteTrainingPlan } from "../../features/trainingplan/services/Trainin
 import { TrainingPlanCard } from "../../features/trainingplan/components/TrainingPlanCard";
 import { AddButton } from "../../components/common/Buttons";
 import { ConfirmModal } from "../../components/common/ConfirmModal";
-import { PageLayout } from "../../components/common/PageLayout";
+import { PageLayout } from "../../components/layout/PageLayout";
 
 export function TrainingPlanListPage() {
     const { 

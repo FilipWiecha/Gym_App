@@ -9,7 +9,7 @@ import { useApiValidation } from "../../hooks/useApiValidation";
 
 import { BackButton, SaveButton, DeleteButton, EditButton } from "../../components/common/Buttons";
 import { ConfirmModal } from "../../components/common/ConfirmModal";
-import { PageLayout } from "../../components/common/PageLayout";
+import { PageLayout } from "../../components/layout/PageLayout";
 import { ExerciseForm } from "../../features/exercise/components/ExerciseForm";
 
 export function ExerciseDetailsPage() {
