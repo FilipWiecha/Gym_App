@@ -25,7 +25,7 @@ System zapewnia wysoki poziom bezpieczeństwa dzięki autoryzacji opartej na tok
 * **Warstwa danych:** Spring Data JPA, Hibernate
 * **Migracje bazodanowe:** Liquibase
 * **Baza danych:** PostgreSQL (konteneryzowana za pośrednictwem Docker Compose)
-* **Bezpieczeństwo:** Spring Security, JWT (algorytm RSA), TOTP (Time-based One-Time Password / RFC 6238)
+* **Bezpieczeństwo:** Spring Security, JWT (algorytm RSA), TOTP
 * **Budowanie projektu:** Apache Maven (Maven Wrapper)
 
 ### Frontend
@@ -44,6 +44,7 @@ Przed przystąpieniem do instalacji należy upewnić się, że na środowisku lo
 * **Node.js:** wersja 18 LTS lub nowsza
 * **Yarn:** wersja 1.22+
 * **Docker Engine** oraz wtyczka **Docker Compose**
+* **OpenSSL**
 
 ---
 
@@ -60,17 +61,39 @@ docker compose up -d
 
 *Po uruchomieniu kontenera baza danych będzie dostępna na domyślnym porcie, a struktura tabel zostanie zainicjalizowana przez Liquibase podczas startu serwera.*
 
-### 2. Uruchomienie serwera backend
+### 2. Generowanie kluczy RSA (JWT)
+
+Aplikacja wykorzystuje asymetryczną parę kluczy RSA (`public.pem` oraz `private.pem`) do podpisywania i weryfikacji tokenów JWT. Klucze te muszą znajdować się w katalogu `backend/src/main/resources/certs/`.
+
+1. Utwórz katalog docelowy i przejdź do niego:
+   ```bash
+   mkdir -p backend/src/main/resources/certs
+   cd backend/src/main/resources/certs
+   ```
+
+2. Wygeneruj klucz prywatny RSA (2048-bit):
+   ```bash
+   openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+   ```
+
+3. Wyodrębnij odpowiadający mu klucz publiczny:
+   ```bash
+   openssl rsa -pubout -in private.pem -out public.pem
+   ```
+
+4. Wróć do katalogu głównego projektu:
+   ```bash
+   cd ../../../../..
+   ```
+
+### 3. Uruchomienie serwera backend
 
 1. Przejdź do katalogu backendu:
    ```bash
    cd backend
    ```
 
-2. *(Opcjonalnie)* Zweryfikuj konfigurację połączenia oraz parametry bezpieczeństwa w pliku:
-   `src/main/resources/application.properties`
-
-3. Uruchom aplikację za pomocą dołączonego skryptu Maven Wrapper:
+2. Uruchom aplikację za pomocą dołączonego skryptu Maven Wrapper:
 
    * **Systemy Linux / macOS:**
      ```bash
@@ -84,19 +107,56 @@ docker compose up -d
 
 Serwer REST API zostanie uruchomiony pod adresem: `http://localhost:8080`.
 
-### 3. Uruchomienie aplikacji frontendowej
+### 4. Uruchomienie aplikacji frontendowej
 
 1. Otwórz nową sesję terminala i przejdź do katalogu frontendu:
    ```bash
    cd frontend
    ```
+2. utwórz plik `.env` w katalogu frontend i wklej do pliku poniższą konfigurację endpointów API:
+   ```bash
+   ### BASE URL
+   VITE_URL_BASE_BACKEND = /api
+   
+   ### AUTH
+   VITE_ENDPOINT_AUTH_REGISTER = /auth/register
+   VITE_ENDPOINT_AUTH_REFRESH = /auth/refresh
+   VITE_ENDPOINT_AUTH_LOGOUT = /auth/logout
+   VITE_ENDPOINT_AUTH_LOGIN = /auth/login
+   
+   ### USER
+   VITE_ENDPOINT_USER_UPDATE = /user/update
+   VITE_ENDPOINT_USER_ME = /user/me
+   
+   ### EXERCISES
+   VITE_ENDPOINT_EXERCISE = /exercise
+   VITE_ENDPOINT_EXERCISE_SEARCH = /exercise/search
+   
+   ### TRAINING PLAN
+   VITE_ENDPOINT_TRAININGPLAN = /trainingplan
+   VITE_ENDPOINT_TRAININGPLAN_SEARCH = /trainingplan/search
+   VITE_ENDPOINT_TRAININGPLAN_EXERCISE = /exercises
+   
+   ### WORKOUT
+   VITE_ENDPOINT_WORKOUT = /workout
+   VITE_ENDPOINT_WORKOUT_SEARCH = /workout/search
+   VITE_ENDPOINT_WORKOUT_EXERCISE = /exercises
+   
+   ### SESSIONS
+   VITE_ENDPOINT_USER_SESSIONS = /user/sessions
+   
+   ### TOTP
+   VITE_ENDPOINT_TOTP_SETUP = /user/totp/setup
+   VITE_ENDPOINT_TOTP_ENABLE = /user/totp/enable
+   VITE_ENDPOINT_TOTP_DISABLE = /user/totp/disable
+   ```
 
-2. Pobierz i zainstaluj wymagane pakiety:
+4. Pobierz i zainstaluj wymagane pakiety:
    ```bash
    yarn install
    ```
 
-3. Uruchom serwer deweloperski Vite:
+5. Uruchom serwer deweloperski Vite:
    ```bash
    yarn dev
    ```
