@@ -105,6 +105,7 @@ button, input, select, textarea {
    ========================================= */
 .login-layout {
     display: flex;
+    height: 100dvh;
     flex: 1;
     min-height: 100%;
 }
@@ -291,7 +292,7 @@ button, input, select, textarea {
 .form-row {
     display: flex;
     gap: 16px;
-    margin-bottom: 20px;
+    margin-bottom: 0px;
 }
 
 .form-row .input-group {
@@ -716,6 +717,24 @@ button, input, select, textarea {
     text-align: center;
 }
 
+.span-error {
+    color: var(--color-error-text);
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden; /* Wymagane, aby tekst nie wystawał przy max-height: 0 */
+    display: block; /* max-height wymaga elementu blokowego lub inline-block */
+
+    transition: max-height 0.2s ease-in-out, opacity 0.2s ease-in-out;
+}
+
+.span-error.show {
+    opacity: 1;
+    max-height: 80px;
+}
+
 .success-banner {
     background-color: rgba(52, 199, 89, 0.12);
     color: #1f8a3b;
@@ -845,6 +864,7 @@ button, input, select, textarea {
 
 .form-options {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 24px;

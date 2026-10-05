@@ -2,7 +2,6 @@ package com.filipwiecha.gym.auth.services;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +12,7 @@ import com.filipwiecha.gym.auth.models.RegisterDto;
 import com.filipwiecha.gym.auth.models.UserSession;
 import com.filipwiecha.gym.auth.models.UserSessionDto;
 import com.filipwiecha.gym.auth.repositories.UserSessionRepository;
+import com.filipwiecha.gym.config.ValidationResult;
 import com.filipwiecha.gym.user.models.User;
 import com.filipwiecha.gym.user.repositories.UserRepository;
 
@@ -32,20 +32,24 @@ public class AuthService {
 
 
     @Transactional
-    public void createUser(RegisterDto registerDto){
-        Optional<User> userToCheck = this.userRepository.findByUsernameOrEmail(registerDto.getUsername(), registerDto.getEmail());
-        
-        if(userToCheck.isPresent()){
-            if(userToCheck.get().getUsername().equals(registerDto.getUsername())){
-                throw new IllegalArgumentException("Username is already in use");
-            }
+    public ValidationResult createUser(RegisterDto registerDto){
+        List<User> usersToCheck = this.userRepository.findByUsernameOrEmail(registerDto.getUsername(), registerDto.getEmail());
 
-            throw new IllegalArgumentException("Email is already in use");
+        for (User user : usersToCheck){
+            if (user.getUsername().equals(registerDto.getUsername())) {
+                return ValidationResult.error("username", "Username is already taken");
+            }
+            if (user.getEmail().equals(registerDto.getEmail())) {
+                return ValidationResult.error("email", "Email is already registered");
+            }
         }
+
 
         User userToSave = new User(registerDto);
         userToSave.setPassword(this.passwordEncoder.encode(registerDto.getPassword()));
         this.userRepository.save(userToSave);
+
+        return ValidationResult.success();
     }
 
     @Transactional

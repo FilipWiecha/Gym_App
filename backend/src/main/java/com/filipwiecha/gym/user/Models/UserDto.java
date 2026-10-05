@@ -2,11 +2,12 @@ package com.filipwiecha.gym.user.models;
 
 import java.time.LocalDate;
 
+import com.filipwiecha.gym.validators.AgeRange;
 
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,24 +18,37 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserDto {
     
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email address format")
+    @NotBlank(message = "Email jest wymagany")
+    @Pattern(regexp = "^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$",
+                 message = "Podaj poprawny adres email")
     private String email;
 
-    @NotBlank(message = "Username is required")
-    @Size(min = 8, max = 30, message = "The username must be between 8 and 30 characters long")
+
+    @NotBlank(message = "Nazwa użytkownika jest wymagana")
+    @Size(min = 3, message = "Nazwa użytkownika musi mieć min. 3 znaki")
+    @Size(max = 20, message = "Nazwa użytkownika może mieć maks. 20 znaków")
+    @Pattern(regexp = "^[a-zA-Z0-9_]+$",
+                message = "Dozwolone są tylko litery, cyfry i znak _")
     private String username;
     
-    @NotBlank(message = "First name is required")
-    @Size(min = 1, max = 30, message = "The First name must be between 1 and 30 characters long")
+
+    @NotBlank(message = "Imię jest wymagane")
+    @Size(min = 2, message = "Imię musi mieć min. 2 znaki")
+    @Size(max = 50, message = "Imię może mieć maks. 50 znaków")
+    @Pattern(regexp = "^\\p{L}[\\p{L}\\s'-]*$", message = "Imię zawiera niedozwolone znaki")
     private String firstName;
 
-    @NotBlank(message = "Last name is required")
-    @Size(min = 1, max = 30, message = "The Last name must be between 1 and 30 characters long")
+
+    @NotBlank(message = "Nazwisko jest wymagane")
+    @Size(min = 2, message = "Nazwisko musi mieć min. 2 znaki")
+    @Size(max = 50, message = "Nazwisko może mieć maks. 50 znaków")
+    @Pattern(regexp = "^\\p{L}[\\p{L}\\s'-]*$", message = "Nazwisko zawiera niedozwolone znaki")
     private String lastName;
 
-    @NotNull(message = "Birth date is required")
-    @Past(message = "Birth date must be in the past")
+
+    @NotNull(message = "Data urodzenia jest wymagana")
+    @Past(message = "Data urodzenia nie może być z przyszłości")
+    @AgeRange(min = 13, max = 120)
     private LocalDate birthDate;
 
     private boolean isTotpEnabled;

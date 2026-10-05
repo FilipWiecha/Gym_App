@@ -19,9 +19,11 @@ import com.filipwiecha.gym.auth.models.TokenDto;
 import com.filipwiecha.gym.auth.services.AuthService;
 import com.filipwiecha.gym.auth.services.TokenService;
 import com.filipwiecha.gym.auth.services.TotpService;
+import com.filipwiecha.gym.config.ValidationResult;
 import com.filipwiecha.gym.user.models.User;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 
 
 
@@ -82,7 +84,7 @@ public class AuthController {
         ResponseCookie refreshTokenCookie = ResponseCookie.from("refresh_token", refreshToken)
             .httpOnly(true)
             .secure(false) // false dla HTTP (localhost)
-            .path("/api/auth/refresh")
+            .path("/")
             .maxAge(cookieMaxAge)
             .sameSite("Lax") // Zezwala na przesyłanie ciasteczka przy nawigacji
             .build();
@@ -105,7 +107,7 @@ public class AuthController {
         ResponseCookie deleteCookie = ResponseCookie.from("refresh_token", "")
                 .httpOnly(true)
                 .secure(false)
-                .path("/api/auth/refresh")
+                .path("/")
                 .maxAge(0)
                 .sameSite("Lax")
                 .build();
@@ -116,11 +118,11 @@ public class AuthController {
     }
     
     @PostMapping("/register")
-    public ResponseEntity<String> registerNewUser(
-        @RequestBody RegisterDto userDto  
+    public ResponseEntity<?> registerNewUser(
+        @Valid @RequestBody RegisterDto userDto  
     ){
-        this.authService.createUser(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body("Created");
+        ValidationResult valid = this.authService.createUser(userDto);
+        return valid.response(null, HttpStatus.CREATED);
     }
 
     @PostMapping("/refresh")

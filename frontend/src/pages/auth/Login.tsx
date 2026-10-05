@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Mail, Lock, CheckCircle2, ShieldCheck, ArrowLeft } from 'lucide-react';
+import { User, Lock, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { postLoginUser } from '../../features/auth/services/AuthService';
 import { PasswordInput } from '../../features/auth/components/PasswordInput';
@@ -73,7 +73,7 @@ export function LoginPage() {
                                 <div className="input-group">
                                     <label htmlFor="username">Login</label>
                                     <div className="input-with-icon">
-                                        <Mail className="icon-left" size={18} />
+                                        <User className="icon-left" size={18} />
                                         <input
                                             id="username"
                                             type="text"
@@ -82,7 +82,6 @@ export function LoginPage() {
                                             placeholder="Wprowadź nazwę użytkownika"
                                             required
                                         />
-                                        {username && <CheckCircle2 className="icon-right success" size={18} />}
                                     </div>
                                 </div>
 
@@ -98,7 +97,7 @@ export function LoginPage() {
                                     </div>
                                 </div>
 
-                                <div className="form-options">
+                                <div className="form-options" style={{flexDirection: "row"}}>
                                     <label className="checkbox-label">
                                         <input 
                                             type="checkbox" 

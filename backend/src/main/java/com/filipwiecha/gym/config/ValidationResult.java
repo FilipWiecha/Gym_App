@@ -8,7 +8,7 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 
 public record ValidationResult(boolean isValid, Map<String, String> errors) {
-    
+
     public static ValidationResult success() {
         return new ValidationResult(true, new HashMap<>());
     }

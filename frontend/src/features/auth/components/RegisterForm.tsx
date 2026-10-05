@@ -1,24 +1,22 @@
 import { Mail, User, CalendarIcon, Lock } from 'lucide-react';
 import { useRegisterForm } from '../hooks/useRegisterForm';
 import { AppDatePicker } from '../../../components/common/AppDatePicker';
-import { PasswordInput, PasswordStrengthIndicator, usePasswordStrength } from './PasswordInput';
+import { PasswordInput, PasswordStrengthIndicator } from './PasswordInput';
+import { ErrorSpan } from './ErrorSpan';
 
 export const RegisterForm = () => {
     const {
         formData,
-        termsAccepted,
-        error,
+        formError,
+        isPasswordStrong,
         handleChange,
         handleDateChange,
         handleCheckboxChange,
         handleSubmit
     } = useRegisterForm();
 
-    const{ isPasswordStrong} = usePasswordStrength(formData.password || "");
-
     return (
         <form onSubmit={handleSubmit} className="login-form">
-            {error && <div className="error-message">{error}</div>}
 
             <div className="form-row">
                 <div className="input-group">
@@ -32,7 +30,9 @@ export const RegisterForm = () => {
                         placeholder="Filip"
                         required
                     />
+                    <ErrorSpan error={formError?.firstName}/>
                 </div>
+                
                 <div className="input-group">
                     <label htmlFor="lastName">Last name</label>
                     <input
@@ -44,6 +44,7 @@ export const RegisterForm = () => {
                         placeholder="Wiecha"
                         required
                     />
+                    <ErrorSpan error={formError?.lastName}/>
                 </div>
             </div>
 
@@ -60,6 +61,7 @@ export const RegisterForm = () => {
                             /> 
                         </div>
                 </div>
+                <ErrorSpan error={formError?.birthDate}/>
             </div>
 
 
@@ -77,6 +79,7 @@ export const RegisterForm = () => {
                         required
                     />
                 </div>
+                <ErrorSpan error={formError?.email}/>
                 <span className="input-hint">We will send a confirmation link to this address.</span>
             </div>
 
@@ -94,6 +97,7 @@ export const RegisterForm = () => {
                         required
                     />
                 </div>
+                <ErrorSpan error={formError?.username}/>
             </div>
 
             <div className="input-group password-group">
@@ -106,23 +110,27 @@ export const RegisterForm = () => {
                         onChange={handleChange}
                     />
                 </div>
- 
+                <ErrorSpan error={formError?.password}/>
             </div>
 
             <div className={`divPassword ${formData.password.length > 0 ? "show" : ""}`}>
                 <PasswordStrengthIndicator password={formData.password || ""} />
             </div>
 
+
             <div className="form-options">
                 <label className="checkbox-label">
                     <input
                         type="checkbox"
-                        checked={termsAccepted}
                         onChange={handleCheckboxChange}
                     />
                     I accept the Terms of Use and Privacy Policy.
                 </label>
+                <ErrorSpan error={formError?.termsAccepted}/>
             </div>
+                
+
+
 
             <button type="submit" className="submit-btn">
                 Create an account
