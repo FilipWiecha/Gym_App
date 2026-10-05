@@ -1,5 +1,6 @@
 import { Type, AlignLeft, Calendar } from "lucide-react";
 import type { WorkoutDto } from "../types/WorkoutDto";
+import { AppDatePicker } from "../../../components/common/AppDatePicker";
 
 interface WorkoutFormProps {
     workout: Partial<WorkoutDto>;
@@ -43,12 +44,13 @@ export function WorkoutForm({ workout, onChange }: WorkoutFormProps) {
                 <label htmlFor="startDate">Data rozpoczęcia</label>
                 <div className="input-with-icon">
                     <Calendar className="icon-left" size={18} />
-                    <input
-                        id="startDate"
-                        type="datetime-local"
+                    <AppDatePicker 
+                        name="startDate"
                         value={workout.startDate ? workout.startDate.slice(0, 16) : ""}
-                        onChange={e => onChange({ ...workout, startDate: new Date(e.target.value).toISOString() })}
-                        required
+                        onChange={e => onChange({ ...workout, startDate: e})}
+                        isRequired={true}
+                        withTime={true}
+                        className={"callendar"}
                     />
                 </div>
             </div>

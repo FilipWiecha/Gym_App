@@ -12,7 +12,9 @@ export const RegisterForm = () => {
         handleChange,
         handleDateChange,
         handleCheckboxChange,
-        handleSubmit
+        handleSubmit,
+        handleBlur,
+        handleDateBlur
     } = useRegisterForm();
 
     return (
@@ -27,8 +29,9 @@ export const RegisterForm = () => {
                         type="text"
                         value={formData.firstName}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         placeholder="Filip"
-                        required
+                        
                     />
                     <ErrorSpan error={formError?.firstName}/>
                 </div>
@@ -41,8 +44,9 @@ export const RegisterForm = () => {
                         type="text"
                         value={formData.lastName}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         placeholder="Wiecha"
-                        required
+                        
                     />
                     <ErrorSpan error={formError?.lastName}/>
                 </div>
@@ -57,7 +61,7 @@ export const RegisterForm = () => {
                                 name="birthDate"
                                 value={formData.birthDate}
                                 onChange={handleDateChange}
-                                isRequired
+                                onBlur={handleDateBlur}
                             /> 
                         </div>
                 </div>
@@ -75,8 +79,9 @@ export const RegisterForm = () => {
                         type="email"
                         value={formData.email}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         placeholder="filipwiecha@wp.pl"
-                        required
+                        
                     />
                 </div>
                 <ErrorSpan error={formError?.email}/>
@@ -93,8 +98,9 @@ export const RegisterForm = () => {
                         type="text"
                         value={formData.username}
                         onChange={handleChange}
+                        onBlur={handleBlur}
                         placeholder="ajgorinho"
-                        required
+                        
                     />
                 </div>
                 <ErrorSpan error={formError?.username}/>
@@ -123,6 +129,7 @@ export const RegisterForm = () => {
                     <input
                         type="checkbox"
                         onChange={handleCheckboxChange}
+                        onBlur={handleBlur}
                     />
                     I accept the Terms of Use and Privacy Policy.
                 </label>

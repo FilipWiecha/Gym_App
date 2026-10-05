@@ -26,7 +26,6 @@ export const PasswordInput = ({name, value, onChange}:PasswordInputTypes) =>{
                 value={value}
                 onChange={onChange}
                 placeholder="••••••••••"
-                required
             />
             {!showPassword? (
                 <Eye 

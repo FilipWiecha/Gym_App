@@ -10,7 +10,7 @@ import useRegisterValidation from './useRegisterValidation';
 export const useRegisterForm = () => {
     const navigate = useNavigate();
     const { handleApiError } = useApiValidation();
-    //const { errors, validateField, validateAll } = useRegisterValidation();
+    const { validateField, validateAll } = useRegisterValidation();
 
     const [formData, setFormData] = useState<RegisterDto>({
         username: '',
@@ -20,10 +20,17 @@ export const useRegisterForm = () => {
         password: '',
         birthDate: ''
     });
-    const{ isPasswordStrong } = usePasswordStrength(formData.password || "")
+    const { isPasswordStrong } = usePasswordStrength(formData.password || "");
     const [termsAccepted, setTermsAccepted] = useState(false);
-    const [formError, setFormError] = useState<Record<string, string> | null >(null);
+    const [formError, setFormError] = useState<Record<string, string> | null>(null);
     const [generalFormError, setGeneralFormError] = useState<string | null>(null);
+
+    const clearFieldError = (name: string) => {
+        setFormError((prev) => {
+            const { [name]: _, ...rest } = prev ?? {};
+            return rest;
+        });
+    };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData((prev) => ({
@@ -31,10 +38,7 @@ export const useRegisterForm = () => {
             [e.target.name]: e.target.value
         }));
 
-        setFormError((prev) => {
-            const { [e.target.name]: _, ...rest } = prev ?? {};
-            return rest;
-        });
+        clearFieldError(e.target.name);
     };
 
     const handleDateChange = (birthDate: string) => {
@@ -43,53 +47,68 @@ export const useRegisterForm = () => {
             birthDate
         }));
 
-        setFormError((prev) => {
-            const { ["birthDate"]: _, ...rest } = prev ?? {};
-            return rest;
-        });
+        clearFieldError("birthDate");
     };
 
     const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setTermsAccepted(e.target.checked);
 
+        clearFieldError("termsAccepted");
+    };
+
+    // Optional: validates a single field when it loses focus (wire it to onBlur).
+    const validateOnBlur = (name: string, value: string) => {
+        const error = validateField(name, value);
+
         setFormError((prev) => {
-                const { ["termsAccepted"]: _, ...rest } = prev ?? {};
-                return rest;
+            const { [name]: _, ...rest } = prev ?? {};
+            return error ? { ...rest, [name]: error } : rest;
         });
     };
 
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) =>
+        validateOnBlur(e.target.name, e.target.value);
+
+    // AppDatePicker calls onBlur without arguments, so the value comes from state.
+    const handleDateBlur = () => validateOnBlur('birthDate', formData.birthDate);
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        setGeneralFormError(null);
 
+        const errors: Record<string, string> = validateAll(formData);
 
-        let isError = false;
+        // password format is checked by validateAll; strength by the PasswordInput meter
+        if (!errors.password && !isPasswordStrong) {
+            errors.password = "Please setup strong password";
+        }
 
         if (!termsAccepted) {
-            setFormError(e=>({...e,"termsAccepted": "You must accept the terms of use."}));
-            isError = true;
+            errors.termsAccepted = "You must accept the terms of use.";
         }
 
-        if (!formData.birthDate) {
-            setFormError(e=>({...e,"birthDate": "Please select your birth date."}));
-            isError = true;
+        if (Object.keys(errors).length > 0) {
+            setFormError(errors);
+            return;
         }
 
-        if(!isPasswordStrong){
-            setFormError(e=>({...e,"password": "Please setup strong password"}));
-            isError = true;
-        }
-
-        if(isError || !formError) return;
+        // send trimmed values so they match what the backend validates
+        const payload: RegisterDto = {
+            ...formData,
+            username: formData.username.trim(),
+            firstName: formData.firstName.trim(),
+            lastName: formData.lastName.trim(),
+            email: formData.email.trim()
+        };
 
         try {
-            
-            await postRegisterUser(formData);
+            await postRegisterUser(payload);
             navigate('/login');
         } catch (err: any) {
-            const {fieldErrors, generalError} = handleApiError(err);
-            
+            const { fieldErrors, generalError } = handleApiError(err);
+
             setGeneralFormError(generalError);
-            setFormError(e=>({ ...e, ...fieldErrors}));
+            setFormError((prev) => ({ ...prev, ...fieldErrors }));
         }
     };
 
@@ -102,6 +121,8 @@ export const useRegisterForm = () => {
         handleChange,
         handleDateChange,
         handleCheckboxChange,
+        handleBlur,
+        handleDateBlur,
         handleSubmit
     };
 };

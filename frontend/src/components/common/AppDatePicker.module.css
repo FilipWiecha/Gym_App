@@ -1,4 +1,3 @@
-/* Zmienne (--glass-*, --radius-*, --color-*) pochodzą z App.css */
 
 .container {
   position: relative;
@@ -10,6 +9,7 @@
 .inputField {
   width: 100%;
   height: 100%;
+  min-width: 0;
   padding: 0;
   margin: 0;
   border: none !important;
@@ -21,6 +21,7 @@
   background: transparent !important;
   box-sizing: border-box;
   text-align: left;
+  text-overflow: ellipsis;
   cursor: pointer;
 }
 
@@ -35,30 +36,28 @@
   box-shadow: none !important;
 }
 
-/* Kalendarz: tafla szkła nad formularzem */
 .popover {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
   z-index: 100;
   width: 292px;
+  max-width: calc(100vw - 24px);
   padding: 14px;
   box-sizing: border-box;
-  background: var(--glass-bg-strong, rgba(255, 255, 255, 0.78));
-  -webkit-backdrop-filter: var(--glass-filter, blur(24px) saturate(180%));
-  backdrop-filter: var(--glass-filter, blur(24px) saturate(180%));
+  background: rgba(255, 255, 255, 0.94);
   border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.7));
   border-radius: var(--radius-l, 20px);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.85),
-    0 0 0 0.5px rgba(60, 60, 67, 0.08),
-    0 16px 40px rgba(0, 0, 0, 0.14);
+    var(--glass-shadow, 0 0 0 0.5px rgba(60, 60, 67, 0.08)),
+    0 12px 32px rgba(0, 0, 0, 0.12);
   animation: popoverIn 0.18s var(--ease, ease-out);
   transform-origin: top left;
+  outline: none;
 }
 
 @keyframes popoverIn {
-  from { opacity: 0; transform: scale(0.97); }
+  from { opacity: 0; transform: scale(0.96); }
   to { opacity: 1; transform: none; }
 }
 
@@ -86,11 +85,16 @@
   border-radius: var(--radius-s, 10px);
   background: rgba(60, 60, 67, 0.08);
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s var(--ease, ease-out);
 }
 
 .select:hover {
   background: rgba(60, 60, 67, 0.12);
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--color-primary, #007aff) !important;
+  outline-offset: 1px;
 }
 
 .navBtn {
@@ -105,14 +109,19 @@
   align-items: center;
   justify-content: center;
   color: var(--color-text-light-muted, #6e6e73);
-  border-radius: 999px;
+  border-radius: var(--radius-pill, 999px);
   cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.2s var(--ease, ease-out), color 0.2s var(--ease, ease-out);
 }
 
-.navBtn:hover {
+.navBtn:hover:not(:disabled) {
   background-color: rgba(60, 60, 67, 0.08);
   color: var(--color-text-main, #1d1d1f);
+}
+
+.navBtn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
 }
 
 .weekdays {
@@ -140,12 +149,13 @@
   border: none !important;
   outline: none !important;
   box-shadow: none !important;
+  padding: 0;
   font-size: 13px;
   font-family: inherit;
-  border-radius: 999px;
+  border-radius: var(--radius-pill, 999px);
   color: var(--color-text-main, #1d1d1f);
   cursor: pointer;
-  transition: background-color 0.15s;
+  transition: background-color 0.15s var(--ease, ease-out);
 }
 
 .dayBtn:hover:not(:disabled) {
@@ -153,7 +163,8 @@
 }
 
 .dayBtn:focus-visible,
-.navBtn:focus-visible {
+.navBtn:focus-visible,
+.doneBtn:focus-visible {
   outline: 2px solid var(--color-primary, #007aff) !important;
   outline-offset: 1px;
 }
@@ -161,6 +172,12 @@
 .dayBtn:disabled {
   color: rgba(60, 60, 67, 0.3);
   cursor: not-allowed;
+}
+
+.today:not(.selected) {
+  background-color: var(--color-primary-soft, rgba(0, 122, 255, 0.12));
+  color: var(--color-primary, #007aff);
+  font-weight: 600;
 }
 
 .selected {
@@ -171,6 +188,63 @@
 
 .emptyCell {
   aspect-ratio: 1;
+}
+
+.timeRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border, rgba(60, 60, 67, 0.14));
+}
+
+.timeGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--color-text-light-muted, #6e6e73);
+}
+
+.timeSelect {
+  font-variant-numeric: tabular-nums;
+}
+
+.timeSeparator {
+  font-weight: 600;
+  color: var(--color-text-main, #1d1d1f);
+}
+
+.doneBtn {
+  border: none !important;
+  padding: 7px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: inherit;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  background-color: var(--color-primary, #007aff);
+  border-radius: var(--radius-pill, 999px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28), 0 1px 2px rgba(0, 122, 255, 0.3);
+  cursor: pointer;
+  transition:
+    background-color 0.2s var(--ease, ease-out),
+    transform 0.15s var(--ease, ease-out);
+}
+
+.doneBtn:hover {
+  background-color: var(--color-primary-hover, #0066d6);
+}
+
+.doneBtn:active {
+  transform: scale(0.97);
+}
+
+@media (max-width: 900px) {
+  .select {
+    font-size: 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

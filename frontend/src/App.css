@@ -319,6 +319,7 @@ button, input, select, textarea {
 }
 
 /* Pole wejściowe: półprzezroczyste, z pierścieniem fokusa */
+.input-with-icon .callendar,
 .input-with-icon input,
 .input-group > input,
 .divInput {
